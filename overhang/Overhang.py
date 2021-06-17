@@ -1,7 +1,7 @@
 import goldenhinges
 import minotaor
 
-from .tools import order_overhangs
+from .tools import order_overhangs, generate_overhang_pairs
 
 
 class Overhang:
@@ -53,3 +53,16 @@ class Overhang:
                 self.has_rc_stop_codon = True
             else:
                 self.has_rc_stop_codon = False
+
+
+def generate_all_overhangs(overhang_length=4):
+    overhang_pairs = generate_overhang_pairs(overhang_length=overhang_length)
+    overhang_strings = [next(iter(overhang_pair)) for overhang_pair in overhang_pairs]
+    overhang_strings.sort()
+
+    overhangs = []
+    for overhang_string in overhang_strings:
+        overhang_class = Overhang(overhang_string)
+        overhangs += [overhang_class]
+
+    return overhangs
