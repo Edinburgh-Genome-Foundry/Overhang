@@ -1,0 +1,124 @@
+#sidebar: p {{sidebar_text}}
+
+.logos
+  img(src="file:///{{ egf_logo_url }}" style="height:40px; width: auto")
+
+
+
+
+hr
+h1 Overhang compendium
+hr
+
+div(style="margin-top:1cm; margin-bottom:1cm;")
+
+
+p There are <b>{{ number_of_overhangs }}</b> overhangs in this report.
+
+p Please see the Appendix on the last page for an explanation of details.
+
+
+<div style = "display:block; clear:both; page-break-after:always;"></div>
+
+
+
+
+
+
+each overhang in overhangs
+
+  div(style="margin-top:1cm; margin-bottom:1cm;")
+
+
+  if overhang.is_usable
+    p(style="text-align:left;")
+      b(style='font-size: 50px;') #[span.green ☑] &ensp; #[span.grey {{ overhang.overhang }}]
+      #[span.big &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; {{ overhang.overhang_rc }}]
+  else
+    p(style="text-align:left;")
+      b(style='font-size: 50px;') #[span.red ☒] &ensp; #[span.grey {{ overhang.overhang }}]
+      #[span.big &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; {{ overhang.overhang_rc }}]
+
+
+  p GC content: #[strong {{ overhang.gc_content_percent }} %].
+
+  if overhang.is_palindromic
+    p #[span.red The overhang is palindromic, cannot be used for DNA assembly.]
+
+  if overhang.has_start_codon
+    p The overhang contains the start codon ATG.
+  if overhang.has_rc_start_codon
+    p The overhang contains the start codon ATG.
+  if overhang.has_stop_codon
+    p The overhang contains a stop codon (TAA, TAG or TGA).
+  if overhang.has_rc_stop_codon
+    p The overhang contains a stop codon (TAA, TAG or TGA).
+
+  if overhang.has_trimer
+    p Has 3 identical bases in a row. However, this has not shown to be very important.
+
+  p Can form the following amino acids in 6 translation frames:<br>
+    each pattern in overhang.aa_patterns
+      &ensp; {{ pattern }} <br>
+
+  <div style = "display:block; clear:both; page-break-after:always;"></div>
+
+
+
+
+
+
+h2 Appendix
+
+p The report consists of 3 sections: summary, overhangs, appendix.
+
+p
+  h5 Summary page(s)
+p The first page summarises the compendium.
+
+p
+  h5 Overhang pages
+p.
+  Each overhang is analysed separately. The result is summarised with a symbol:
+
+p #[span.green ☑] : good overhang
+//- p #[span.yellow ⚠] : warning
+p #[span.red ☒] : unusable palindromic sequence
+
+p.
+  <b>Overhangs</b> are unpaired nucleotides at the end of a double-stranded linear DNA
+  molecule.
+  Overhangs can be on either strand; 5' or 3' overhangs. After DNA ligation with another
+  DNA with a complementary overhang, these remain in the sequence as fusion sites ("scars").
+
+p
+  strong Overhang sets
+p.
+  Use the 
+  <a href="https://github.com/Edinburgh-Genome-Foundry/GoldenHinges">GoldenHinges</a>
+  Python package to generate a set of mutually compatible overhangs that can be used for
+  DNA assembly.
+
+
+
+
+
+
+style.
+  .green {
+    color: #86bf86
+  }
+  .grey {
+    color: #a9a9a9
+  }
+  .red {
+    color: #fd5a31
+  }
+  .yellow {
+    color: #f7b500
+  }
+  .big {
+    font-size: 50px;
+    font-weight: bold;
+    color: #a9a9a9
+  }
