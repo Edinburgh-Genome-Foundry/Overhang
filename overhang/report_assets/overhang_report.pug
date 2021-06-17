@@ -7,7 +7,7 @@
 
 
 hr
-h1 Overhang compendium
+h1 Compendium of overhangs
 hr
 
 div(style="margin-top:1cm; margin-bottom:1cm;")
@@ -47,12 +47,14 @@ each overhang in overhangs
 
   if overhang.has_start_codon
     p The overhang contains the start codon ATG.
-  if overhang.has_rc_start_codon
-    p The overhang contains the start codon ATG.
+  else
+    if overhang.has_rc_start_codon
+      p The overhang contains the start codon ATG.
   if overhang.has_stop_codon
     p The overhang contains a stop codon (TAA, TAG or TGA).
-  if overhang.has_rc_stop_codon
-    p The overhang contains a stop codon (TAA, TAG or TGA).
+  else
+    if overhang.has_rc_stop_codon
+      p The overhang contains a stop codon (TAA, TAG or TGA).
 
   if overhang.has_trimer
     p Has 3 identical bases in a row. However, this has not shown to be very important.

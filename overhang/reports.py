@@ -25,7 +25,7 @@ STYLESHEET = os.path.join(ASSETS_PATH, "report_style.css")
 def end_pug_to_html(template, **context):
     # now = datetime.now().strftime("%Y-%m-%d")
     defaults = {
-        "sidebar_text": "EGF's overhang compendium (version %s)" % (__version__),
+        "sidebar_text": "EGF's compendium of overhangs (version %s)" % (__version__),
         # "end_logo_url": os.path.join(ASSETS_PATH, "imgs", "logo.png"),
     }
     for k in defaults:
