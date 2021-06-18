@@ -13,5 +13,6 @@ setup(
     long_description_content_type="text/x-rst",
     keywords="biology",
     packages=find_packages(exclude="docs"),
+    include_package_data=True,
     install_requires=["goldenhinges", "minotaor", "pdf_reports"],
 )
