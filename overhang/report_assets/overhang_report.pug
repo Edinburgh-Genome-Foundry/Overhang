@@ -40,7 +40,10 @@ each overhang in overhangs
       #[span.big &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; {{ overhang.overhang_rc }}]
 
 
-  p GC content: #[strong {{ overhang.gc_content_percent }} %].
+  if overhang.has_extreme_gc
+    p #[span.red Extreme GC content: {{ overhang.gc_content_percent }} %.]
+  else
+    p GC content: #[strong {{ overhang.gc_content_percent }} %].
 
   if overhang.is_palindromic
     p #[span.red The overhang is palindromic, cannot be used for DNA assembly.]
