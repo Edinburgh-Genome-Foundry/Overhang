@@ -1,7 +1,6 @@
-import goldenhinges
 import minotaor
 
-from .tools import order_overhangs, generate_overhang_pairs
+from .tools import gc_content, order_overhangs, generate_overhang_pairs
 
 
 class Overhang:
@@ -25,7 +24,7 @@ class Overhang:
         else:
             self.is_palindromic = False
         # its reverse complement has the same GC content:
-        self.gc_content = goldenhinges.gc_content(seq)
+        self.gc_content = gc_content(seq)
         self.aa_patterns = minotaor.convert_dna_to_aa_pattern(self.overhang)
         self.count_max_repeat()
         self.find_codons()
