@@ -3,7 +3,7 @@ import goldenhinges
 
 
 def order_overhangs(seq):
-    """Create an overhang's reverse complement, and return an ordered list of them.
+    """Create an overhang's reverse complement, and return them in order.
 
     Overhangs are ordered by the letters, e.g. AATA < TATT.
 
