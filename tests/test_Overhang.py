@@ -30,3 +30,7 @@ def test_Overhang():
 
     assert overhang.Overhang("ATGT").has_rc_start_codon is True
     assert overhang.Overhang("TGA").has_rc_stop_codon is True
+
+
+def test_generate_all_overhangs():
+    assert len(overhang.generate_all_overhangs(3)) == 32
