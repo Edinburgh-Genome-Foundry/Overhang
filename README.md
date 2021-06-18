@@ -5,6 +5,10 @@
 
 # EGF's Compendium of overhangs
 
+
+![Build](https://https://github.com/Edinburgh-Genome-Foundry/overhang/actions/workflows/build.yml/badge.svg)
+
+
 **Work in progress**
 
 Compendium of overhangs.
