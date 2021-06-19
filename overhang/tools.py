@@ -65,3 +65,35 @@ def generate_overhang_pairs(overhang_length=4):
     overhang_pairs = set(overhang_pairs)  # remove duplicate pairs
 
     return overhang_pairs
+
+
+def subset_data_for_overhang(dataframe, overhang, horizontal=True, filter=True):
+    """Subset tatapov dataframe for given overhang.
+
+
+    **Parameters**
+
+    **dataframe**
+    > Tatapov dataset, for example `tatapov.annealing_data["25C"]["01h"]`
+
+    **overhang**
+    > Overhang class instance (`Overhang`)
+
+    **horizontal**
+    > Orientation of returned dataframe (`bool`).
+
+    **filter**
+    > If True, keep only columns (if horizontal=True) or rows (if horizontal=False)
+    with nonzero values (`bool`).
+    """
+    overhangs = [overhang.overhang, overhang.overhang_rc]
+    if horizontal:
+        subset_data = dataframe.loc[overhangs]
+        if filter:
+            subset_data = subset_data.loc[:, subset_data.sum(axis=0) != 0]
+        return subset_data
+    else:  # vertical
+        subset_data = dataframe[overhangs]
+        if filter:
+            subset_data = subset_data.loc[subset_data.sum(axis=1) != 0, :]
+        return subset_data
