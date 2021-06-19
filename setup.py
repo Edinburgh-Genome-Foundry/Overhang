@@ -14,5 +14,5 @@ setup(
     keywords="biology",
     packages=find_packages(exclude="docs"),
     include_package_data=True,
-    install_requires=["minotaor", "pdf_reports"],
+    install_requires=["matplotlib", "minotaor", "numpy", "pdf_reports", "tatapov"],
 )

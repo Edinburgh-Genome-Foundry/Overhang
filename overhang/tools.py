@@ -1,5 +1,8 @@
 import itertools
 
+import numpy as np
+import matplotlib.pyplot as plt
+
 complements = {"A": "T", "T": "A", "C": "G", "G": "C"}
 
 
@@ -97,3 +100,46 @@ def subset_data_for_overhang(dataframe, overhang, horizontal=True, filter=True):
         if filter:
             subset_data = subset_data.loc[subset_data.sum(axis=1) != 0, :]
         return subset_data
+
+
+def plot_data(df, ax=None, colorbar=True, figwidth=15, plot_color="Reds"):
+    """Plot a (restricted) tatapov dataframe.
+
+
+    **Parameters**
+
+    **df**
+    > One of the data sheets provided by tatapov, e.g. ``annealing_data["37C"]["01h"]``.
+    Or a restriction using ``data_subset``.
+
+    **ax**
+    > A Matplotlib ax. If none is provided, one will be created and returned at the end.
+
+    **colorbar**
+    > If True, the figure will have a colorbar.
+
+    **figwidth**
+    > Custom width of the figure.
+
+    **plot_color**
+    > A Matplotlib colormap name.
+    """
+    # Adapted from tatapov.plot_data()
+    if ax is None:
+        _, ax = plt.subplots(1, figsize=(figwidth, 1.5))
+    values = np.log10(np.maximum(0.5, df.values[::-1]))
+    im = ax.imshow(values, cmap=plot_color)
+    if colorbar:
+        ax.figure.colorbar(im, label="log10( occurrences )")
+
+    xtick_labels = df.columns
+    ax.set_xticks(range(len(xtick_labels)))
+    ax.set_xticklabels(xtick_labels, rotation=90)
+    ax.xaxis.tick_top()
+    ax.set_xlim(right=len(xtick_labels) - 0.5)
+
+    ytick_labels = df.index[::-1]
+    ax.set_yticks(range(len(ytick_labels)))
+    ax.set_yticklabels(ytick_labels)
+    ax.set_ylim(-0.5, len(ytick_labels) - 0.5)
+    return ax, im
