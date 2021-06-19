@@ -102,7 +102,7 @@ def subset_data_for_overhang(dataframe, overhang, horizontal=True, filter=True):
         return subset_data
 
 
-def plot_data(df, ax=None, colorbar=True, figwidth=15, plot_color="Reds"):
+def plot_data(df, ax=None, colorbar=True, figwidth=8, plot_color="Reds"):
     """Plot a (restricted) tatapov dataframe.
 
 

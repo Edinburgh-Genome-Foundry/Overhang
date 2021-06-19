@@ -2,6 +2,7 @@ import os
 
 # import matplotlib.pyplot as plt
 # import pandas
+import tatapov
 
 from pdf_reports import (
     add_css_class,
@@ -11,8 +12,9 @@ from pdf_reports import (
     write_report,
 )
 
-# import pdf_reports.tools as pdf_tools
+import pdf_reports.tools as pdf_tools
 
+from .tools import subset_data_for_overhang, plot_data
 from .version import __version__
 
 THIS_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -43,6 +45,9 @@ def write_pdf_report(target, overhangs):
     **overhangs**
     > List of Overhang instances.
     """
+    # Prepare data for the plots:
+    data = tatapov.annealing_data["37C"]["2020_01h_Esp3I"]
+
     for overhang in overhangs:
         overhang.is_usable = overhang.is_good()
         overhang.gc_content_percent = int(overhang.gc_content * 100)
@@ -50,6 +55,16 @@ def write_pdf_report(target, overhangs):
             overhang.has_extreme_gc = True
         else:
             overhang.has_extreme_gc = False
+
+        # Prepare the plotting data:
+        subset_data = subset_data_for_overhang(data, overhang)
+
+        # Make the plot:
+        overhang.tatapov_figure, _ = plot_data(subset_data)
+
+        # Convert the plot for PDF:
+        overhang.figure_data = pdf_tools.figure_data(overhang.tatapov_figure, fmt="svg")
+
     html = end_pug_to_html(
         REPORT_TEMPLATE, overhangs=overhangs, number_of_overhangs=len(overhangs)
     )
