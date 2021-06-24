@@ -1,6 +1,7 @@
 import tatapov
 
 from .Overhang import Overhang
+from .tools import reverse_complement
 
 
 class OverhangSet:
@@ -37,21 +38,7 @@ class OverhangSet:
 
     def inspect_overhangs(self):
         if self.has_duplicates:
-            print("Duplicate overhangs in the list!")
-
-        # Based on Pryor et al., PLoS ONE (2020):
-        if len(self.overhang_input[0]) == 3:  # check overhang length on first one
-            if len(self.overhang_input) > 10:
-                print(
-                    "Assembly fidelity significantly decreases when using "
-                    "more than 10 overhangs."
-                )
-        if len(self.overhang_input[0]) == 4:
-            if len(self.overhang_input) > 20:
-                print(
-                    "Assembly fidelity significantly decreases when using "
-                    "more than 20 overhangs."
-                )
+            print("Incorrect set! Duplicate overhangs")
 
         self.palindromic_oh = []
         self.palindromic_oh += [
@@ -59,8 +46,36 @@ class OverhangSet:
         ]
         if len(self.palindromic_oh) != 0:
             print(
-                "The set has the following palindromic overhangs:", self.palindromic_oh
+                "Incorrect set! Palindromic overhang(s):", self.palindromic_oh,
             )
+
+        nonpalindromic_oh = set(self.overhang_input) - set(self.palindromic_oh)
+        nonpalindromic_oh_rc = {reverse_complement(oh) for oh in nonpalindromic_oh}
+        rc_oh = nonpalindromic_oh & nonpalindromic_oh_rc
+        if rc_oh:
+            self.has_rc_error = True
+            print(
+                "Incorrect set! Nonpalindromic overhang(s) with reverse complement:",
+                rc_oh,
+            )
+        else:
+            self.has_rc_error = False
+
+        # Based on Pryor et al., PLoS ONE (2020):
+        if len(self.overhang_input[0]) == 3:  # check overhang length on first one
+            if len(self.overhang_input) > 10:
+                print(
+                    "Warning! Assembly fidelity significantly decreases when using "
+                    "more than 10 overhangs."
+                )
+        if len(self.overhang_input[0]) == 4:
+            if len(self.overhang_input) > 20:
+                print(
+                    "Warning! Assembly fidelity significantly decreases when using "
+                    "more than 20 overhangs."
+                )
+
+        # Tatapov plots:
         if self.enzymes:
             figwidth = len(self.overhang_input) * 0.54  # good multiplier for nice plot
             for enzyme in self.enzymes:
