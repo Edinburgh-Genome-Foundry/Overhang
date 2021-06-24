@@ -1,4 +1,5 @@
 from .Overhang import Overhang, generate_all_overhangs
+from .OverhangSet import OverhangSet
 from .tools import (
     order_overhangs,
     generate_overhang_pairs,
