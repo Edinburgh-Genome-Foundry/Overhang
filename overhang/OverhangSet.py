@@ -13,10 +13,10 @@ class OverhangSet:
     **Parameters**
 
     **overhangs**
-    > A set of overhang strings (`set`). Example: `{"TAGG", "ATGG", "GACT"}`.
+    > A list of overhang strings (`list`). Example: `["TAGG", "ATGG", "GACT"]`.
 
     **enzymes**
-    > Enzyme(s) this set is used with (`list`). Example: `["Esp3I"]`.
+    > Enzyme(s) used for assembly (`list`). Example: `["Esp3I"]`.
     """
 
     enzyme_tatapov_lookup = {
@@ -28,10 +28,17 @@ class OverhangSet:
 
     def __init__(self, overhangs, enzymes=None):
         self.overhangs = [Overhang(overhang) for overhang in overhangs]
+        if len(set(overhangs)) != len(overhangs):
+            self.has_duplicates = True
+        else:
+            self.has_duplicates = False
         self.overhang_input = overhangs
         self.enzymes = enzymes
 
     def inspect_overhangs(self):
+        if self.has_duplicates:
+            print("Duplicate overhangs in the list!")
+
         # Based on Pryor et al., PLoS ONE (2020):
         if len(self.overhang_input[0]) == 3:  # check overhang length on first one
             if len(self.overhang_input) > 10:
