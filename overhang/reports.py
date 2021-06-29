@@ -20,6 +20,7 @@ from .version import __version__
 THIS_PATH = os.path.dirname(os.path.realpath(__file__))
 ASSETS_PATH = os.path.join(THIS_PATH, "report_assets")
 REPORT_TEMPLATE = os.path.join(ASSETS_PATH, "overhang_report.pug")
+SET_REPORT_TEMPLATE = os.path.join(ASSETS_PATH, "overhangset_report.pug")
 STYLESHEET = os.path.join(ASSETS_PATH, "report_style.css")
 
 
@@ -60,8 +61,8 @@ def write_pdf_report(target, overhangs, enzyme="Esp3I"):
 
     for overhang in overhangs:
         overhang.is_usable = overhang.is_good()
-        overhang.gc_content_percent = int(overhang.gc_content * 100)
-        if overhang.gc_content < 0.25 or 0.75 < overhang.gc_content:
+        overhang.gc_content_percent = int(overhang.gc_content * 100)  # to display as %
+        if overhang.gc_content < 0.25 or 0.75 < overhang.gc_content:  # none or all GC
             overhang.has_extreme_gc = True
         else:
             overhang.has_extreme_gc = False
@@ -83,3 +84,49 @@ def write_pdf_report(target, overhangs, enzyme="Esp3I"):
     )
     write_report(html, target, extra_stylesheets=(STYLESHEET,))
 
+
+def write_overhangset_report(target, overhangset):
+    """Write a report on an overhang set.
+
+
+    **Parameters**
+
+    **target**
+    > Path for PDF file.
+
+    **overhangset**
+    > An OverhangSet instance.
+    """
+    # Prepare data for the plots:
+    enzyme_tatapov_lookup = {
+        "BsaI": "2020_01h_BsaI",
+        "BsmBI": "2020_01h_BsmBI",
+        "Esp3I": "2020_01h_Esp3I",
+        "BbsI": "2020_01h_BbsI",
+    }
+    # Prepare data for the plots:
+    data = tatapov.annealing_data["37C"][enzyme_tatapov_lookup[overhangset.enzymes[0]]]
+
+    for overhang in overhangset.overhangs:
+        overhang.is_usable = overhang.is_good()
+        overhang.gc_content_percent = int(overhang.gc_content * 100)  # to display as %
+        if overhang.gc_content < 0.25 or 0.75 < overhang.gc_content:  # none or all GC
+            overhang.has_extreme_gc = True
+        else:
+            overhang.has_extreme_gc = False
+
+        # Prepare the plotting data:
+        subset_data = subset_data_for_overhang(data, overhang)
+
+        # Make the plot:
+        overhang.tatapov_figure, _ = plot_data(subset_data)
+
+        # Convert the plot for PDF:
+        overhang.figure_data = pdf_tools.figure_data(overhang.tatapov_figure, fmt="svg")
+
+    html = end_pug_to_html(
+        SET_REPORT_TEMPLATE,
+        overhangset=overhangset,
+        number_of_overhangs=len(overhangset.overhangs),
+    )
+    write_report(html, target, extra_stylesheets=(STYLESHEET,))

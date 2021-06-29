@@ -27,7 +27,7 @@ class OverhangSet:
         "BbsI": "2020_01h_BbsI",
     }
 
-    def __init__(self, overhangs, enzymes=None):
+    def __init__(self, overhangs, enzymes=None, name="Unnamed set"):
         self.overhangs = [Overhang(overhang) for overhang in overhangs]
         if len(set(overhangs)) != len(overhangs):
             self.has_duplicates = True
@@ -35,6 +35,9 @@ class OverhangSet:
             self.has_duplicates = False
         self.overhang_input = overhangs
         self.enzymes = enzymes
+        self.name = name
+        self.has_warnings = False  # used during evaluation of set and reporting
+        self.has_errors = False  # used during evaluation of set and reporting
 
     def inspect_overhangs(self):
         if self.has_duplicates:
