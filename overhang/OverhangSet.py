@@ -1,6 +1,8 @@
+import itertools
+
 import tatapov
 
-from .Overhang import Overhang
+from .Overhang import Overhang, get_overhang_distance
 from .tools import reverse_complement
 
 
@@ -38,6 +40,7 @@ class OverhangSet:
         self.name = name
         self.has_warnings = False  # used during evaluation of set and reporting
         self.has_errors = False  # used during evaluation of set and reporting
+        self.overhang_length = len(self.overhang_input[0])
 
     def inspect_overhangs(self):
         if self.has_duplicates:
@@ -64,14 +67,16 @@ class OverhangSet:
         else:
             self.has_rc_error = False
 
+        self.similar_overhangs = self.find_similar_overhangs()
+
         # Based on Pryor et al., PLoS ONE (2020):
-        if len(self.overhang_input[0]) == 3:  # check overhang length on first one
+        if self.overhang_length == 3:  # check overhang length on first one
             if len(self.overhang_input) > 10:
                 print(
                     "Warning! Assembly fidelity significantly decreases when using "
                     "more than 10 overhangs."
                 )
-        if len(self.overhang_input[0]) == 4:
+        if self.overhang_length == 4:
             if len(self.overhang_input) > 20:
                 print(
                     "Warning! Assembly fidelity significantly decreases when using "
@@ -92,3 +97,42 @@ class OverhangSet:
                 )
                 self.ax.figure.tight_layout()
                 self.ax.plot()
+
+    def find_similar_overhangs(self, difference_threshold=None):
+        """Find overhangs that differ in fewer nucleotides than the threshold.
+
+
+        **Parameters**
+
+        **difference_threshold**
+        > Acceptable number of matching nucleotides in an overhang pair (`int`).
+        Overhang pairs with fewer differences are marked as similar. Defaults to 0.
+        """
+        if difference_threshold is None:
+            difference_threshold = 0
+        similar_overhangs = ""
+        for oh1, oh2 in itertools.combinations(self.overhangs, 2):
+            if get_overhang_distance(oh1, oh2) < difference_threshold:
+                similar_overhangs += (
+                    oh1.overhang
+                    + "/"
+                    + oh1.overhang_rc
+                    + " ~ "
+                    + oh2.overhang
+                    + "/"
+                    + oh2.overhang_rc
+                    + " ;  "
+                )
+
+        if similar_overhangs == "":
+            similar_overhangs = (
+                "No overhangs (including reverse complements) "
+                "differ by fewer than %d nucleotides." % difference_threshold
+            )
+        else:
+            similar_overhangs = (
+                "These overhang pairs (including reverse complements) have fewer than "
+                "%d differences: " % difference_threshold + similar_overhangs
+            )
+
+        return similar_overhangs

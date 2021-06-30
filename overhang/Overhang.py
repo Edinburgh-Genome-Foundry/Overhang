@@ -99,3 +99,25 @@ def generate_all_overhangs(overhang_length=4):
         overhangs += [overhang_class]
 
     return overhangs
+
+
+def get_overhang_distance(oh1, oh2):
+    """Calculate number of different letters between two Overhang instances.
+    """
+    distance = get_hamming_distance(oh1.overhang, oh2.overhang)
+    distance_rc = get_hamming_distance(oh1.overhang, oh2.overhang_rc)
+    if distance < distance_rc:  # we want to find the most similar ones
+        return distance
+    else:
+        return distance_rc
+
+
+def get_hamming_distance(seq1, seq2):
+    """Calculate Hamming distance between two overhang sequences.
+    """
+    distance = 0
+    for i, letter in enumerate(seq1):
+        if letter != seq2[i]:
+            distance += 1
+
+    return distance
