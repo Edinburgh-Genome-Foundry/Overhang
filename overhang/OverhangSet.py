@@ -29,23 +29,26 @@ class OverhangSet:
         "BbsI": "2020_01h_BbsI",
     }
 
-    def __init__(self, overhangs, enzymes=None, name="Unnamed set"):
+    def __init__(self, overhangs, enzyme="Esp3I", name="Unnamed set"):
         self.overhangs = [Overhang(overhang) for overhang in overhangs]
         if len(set(overhangs)) != len(overhangs):
             self.has_duplicates = True
         else:
             self.has_duplicates = False
         self.overhang_input = overhangs
-        self.enzymes = enzymes
+        self.enzyme = enzyme
         self.name = name
         self.has_warnings = False  # used during evaluation of set and reporting
         self.has_errors = False  # used during evaluation of set and reporting
         self.overhang_length = len(self.overhang_input[0])
 
     def inspect_overhangs(self):
+        # DUPLICATES
         if self.has_duplicates:
             print("Incorrect set! Duplicate overhangs")
+            self.has_errors = True
 
+        # PALINDROMIC
         self.palindromic_oh = []
         self.palindromic_oh += [
             overhang.overhang for overhang in self.overhangs if overhang.is_palindromic
@@ -54,7 +57,9 @@ class OverhangSet:
             print(
                 "Incorrect set! Palindromic overhang(s):", self.palindromic_oh,
             )
+            self.has_errors = True
 
+        # REVERSE COMPLEMENT
         nonpalindromic_oh = set(self.overhang_input) - set(self.palindromic_oh)
         nonpalindromic_oh_rc = {reverse_complement(oh) for oh in nonpalindromic_oh}
         rc_oh = nonpalindromic_oh & nonpalindromic_oh_rc
@@ -64,11 +69,14 @@ class OverhangSet:
                 "Incorrect set! Nonpalindromic overhang(s) with reverse complement:",
                 rc_oh,
             )
+            self.has_errors = True
         else:
             self.has_rc_error = False
 
+        # SIMILAR OVERHANGS
         self.similar_overhangs = self.find_similar_overhangs()
 
+        # SET SIZE
         # Based on Pryor et al., PLoS ONE (2020):
         if self.overhang_length == 3:  # check overhang length on first one
             if len(self.overhang_input) > 10:
@@ -83,22 +91,17 @@ class OverhangSet:
                     "more than 20 overhangs."
                 )
 
-        self.evaluate_annealing()
+        # MISANNEALING
+        self.evaluate_annealing()  # also sets `has_warnings`
 
         # Tatapov plots:
-        if self.enzymes:
-            figwidth = len(self.overhang_input)
-            for enzyme in self.enzymes:
-                print(enzyme, "Tatapov plot (37 Celsius, 1 hour):")
-                data = tatapov.annealing_data["37C"][self.enzyme_tatapov_lookup[enzyme]]
-                subset = tatapov.data_subset(
-                    data, self.overhang_input, add_reverse=True
-                )
-                self.ax, _ = tatapov.plot_data(
-                    subset, figwidth=figwidth, plot_color="Reds"
-                )
-                self.ax.figure.tight_layout()
-                self.ax.plot()
+        figwidth = len(self.overhang_input)
+        print(self.enzyme, "Tatapov plot (37 Celsius, 1 hour):")
+        data = tatapov.annealing_data["37C"][self.enzyme_tatapov_lookup[self.enzyme]]
+        subset = tatapov.data_subset(data, self.overhang_input, add_reverse=True)
+        self.ax, _ = tatapov.plot_data(subset, figwidth=figwidth, plot_color="Reds")
+        self.ax.figure.tight_layout()
+        self.ax.plot()
 
     def evaluate_annealing(self):
         enzyme_tatapov_lookup = {
@@ -111,6 +114,7 @@ class OverhangSet:
         data = tatapov.annealing_data["37C"][enzyme_tatapov_lookup[self.enzymes[0]]]
         subset = tatapov.data_subset(data, self.overhang_input, add_reverse=True)
 
+        # WEAK ANNEALS
         # See cutoff 400 in Pryor et al. Figure 2.
         weak_anneals = [
             oh.overhang + "/" + oh.overhang_rc
@@ -121,6 +125,7 @@ class OverhangSet:
         if not self.weak_anneals == "":
             self.has_warnings = True
 
+        # SELF-MISANNEALS
         self_misanneals = [
             oh.overhang + "/" + oh.overhang_rc
             for oh in self.overhangs
@@ -131,6 +136,7 @@ class OverhangSet:
         if not self.self_misanneals == "":
             self.has_warnings = True
 
+        # MISANNEALS
         misanneals = []
         for oh1, oh2 in itertools.combinations(self.overhangs, 2):
             # 10 below is a good cutoff for misannealing pairs
