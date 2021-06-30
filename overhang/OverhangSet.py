@@ -83,6 +83,8 @@ class OverhangSet:
                     "more than 20 overhangs."
                 )
 
+        self.evaluate_annealing()
+
         # Tatapov plots:
         if self.enzymes:
             figwidth = len(self.overhang_input)
@@ -97,6 +99,37 @@ class OverhangSet:
                 )
                 self.ax.figure.tight_layout()
                 self.ax.plot()
+
+    def evaluate_annealing(self):
+        enzyme_tatapov_lookup = {
+            "BsaI": "2020_01h_BsaI",
+            "BsmBI": "2020_01h_BsmBI",
+            "Esp3I": "2020_01h_Esp3I",
+            "BbsI": "2020_01h_BbsI",
+        }
+        # Prepare data:
+        data = tatapov.annealing_data["37C"][enzyme_tatapov_lookup[self.enzymes[0]]]
+        subset = tatapov.data_subset(data, self.overhang_input, add_reverse=True)
+
+        # See cutoff 400 in Pryor et al. Figure 2.
+        weak_anneals = [
+            oh.overhang + "/" + oh.overhang_rc
+            for oh in self.overhangs
+            if subset[oh.overhang][oh.overhang_rc] < 400
+        ]
+        self.weak_anneals = "; ".join(weak_anneals)
+        if not self.weak_anneals == "":
+            self.has_warnings = True
+
+        self_misanneals = [
+            oh.overhang + "/" + oh.overhang_rc
+            for oh in self.overhangs
+            if subset[oh.overhang][oh.overhang] != 0
+            or subset[oh.overhang_rc][oh.overhang_rc] != 0
+        ]
+        self.self_misanneals = "; ".join(self_misanneals)
+        if not self.self_misanneals == "":
+            self.has_warnings = True
 
     def find_similar_overhangs(self, difference_threshold=None):
         """Find overhangs that differ in fewer nucleotides than the threshold.
