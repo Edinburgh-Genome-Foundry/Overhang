@@ -7,3 +7,15 @@ from .tools import (
     plot_data,
 )
 from .reports import write_pdf_report, write_overhangset_report
+
+DISASTANDARD = [
+    "AATT",  # palindromic error
+    "TAGG",
+    "CCTA",  # reverse complements error
+    "TCCG",
+    "TCCG",  # duplicate overhangs error
+    "CACC",  # weakest correct warning
+    "GACT",  # self-misannealing warning
+    "ATGG",
+    "CCAG",  # misannealing pair warning
+]
