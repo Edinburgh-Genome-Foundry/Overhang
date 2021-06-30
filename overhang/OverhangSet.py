@@ -75,23 +75,29 @@ class OverhangSet:
         else:
             self.has_rc_error = False
 
-        # SIMILAR OVERHANGS
+        # SIMILAR OVERHANGS -- we do not consider it as a flaw
         self.similar_overhangs = self.find_similar_overhangs()
 
         # SET SIZE
         # Based on Pryor et al., PLoS ONE (2020):
         if self.overhang_length == 3:  # check overhang length on first one
-            if len(self.overhang_input) > 10:
-                print(
-                    "Warning! Assembly fidelity significantly decreases when using "
-                    "more than 10 overhangs."
+            n = 10
+            if len(self.overhang_input) > n:
+                self.set_size_text = (
+                    "Assembly fidelity significantly decreases when using "
+                    + "more than %d overhangs." % n
+                )  # text used in report
+                print("Warning! " + self.set_size_text)
+        elif self.overhang_length == 4:
+            n = 20
+            if len(self.overhang_input) > n:
+                self.set_size_text = (
+                    "Assembly fidelity significantly decreases when using "
+                    + "more than %d overhangs." % n
                 )
-        if self.overhang_length == 4:
-            if len(self.overhang_input) > 20:
-                print(
-                    "Warning! Assembly fidelity significantly decreases when using "
-                    "more than 20 overhangs."
-                )
+                print("Warning! " + self.set_size_text)
+        else:
+            self.set_size_text = ""
 
         # MISANNEALING
         self.evaluate_annealing()  # also sets `has_warnings`
@@ -106,14 +112,8 @@ class OverhangSet:
         self.ax.plot()
 
     def evaluate_annealing(self):
-        enzyme_tatapov_lookup = {
-            "BsaI": "2020_01h_BsaI",
-            "BsmBI": "2020_01h_BsmBI",
-            "Esp3I": "2020_01h_Esp3I",
-            "BbsI": "2020_01h_BbsI",
-        }
         # Prepare data:
-        data = tatapov.annealing_data["37C"][enzyme_tatapov_lookup[self.enzyme]]
+        data = tatapov.annealing_data["37C"][self.enzyme_tatapov_lookup[self.enzyme]]
         subset = tatapov.data_subset(data, self.overhang_input, add_reverse=True)
 
         # WEAK ANNEALS
