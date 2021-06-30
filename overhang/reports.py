@@ -107,6 +107,14 @@ def write_overhangset_report(target, overhangset):
     # Prepare data for the plots:
     data = tatapov.annealing_data["37C"][enzyme_tatapov_lookup[overhangset.enzymes[0]]]
 
+    overhangset.inspect_overhangs()
+    height = overhangset.ax.figure.get_size_inches()[1]
+    if height > 10:
+        height = 10  # to fit on the page
+    overhangset.figure_data = pdf_tools.figure_data(
+        overhangset.ax, fmt="svg", size=[7, height]
+    )
+
     for overhang in overhangset.overhangs:
         overhang.is_usable = overhang.is_good()
         overhang.gc_content_percent = int(overhang.gc_content * 100)  # to display as %

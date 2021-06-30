@@ -142,4 +142,6 @@ def plot_data(df, ax=None, colorbar=True, figwidth=8, plot_color="Reds"):
     ax.set_yticks(range(len(ytick_labels)))
     ax.set_yticklabels(ytick_labels)
     ax.set_ylim(-0.5, len(ytick_labels) - 0.5)
+    plt.close()
+
     return ax, im

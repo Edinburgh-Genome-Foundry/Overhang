@@ -19,7 +19,7 @@ class OverhangSet:
     > A list of overhang strings (`list`). Example: `["TAGG", "ATGG", "GACT"]`.
 
     **enzymes**
-    > Enzyme(s) used for assembly (`list`). Example: `["Esp3I"]`.
+    > Enzyme used for assembly (`list`). Example: `["Esp3I"]`.
     """
 
     enzyme_tatapov_lookup = {
@@ -85,9 +85,9 @@ class OverhangSet:
 
         # Tatapov plots:
         if self.enzymes:
-            figwidth = len(self.overhang_input) * 0.54  # good multiplier for nice plot
+            figwidth = len(self.overhang_input)
             for enzyme in self.enzymes:
-                print(enzyme, "tatapov plot (37 Celsius, 1 hour):")
+                print(enzyme, "Tatapov plot (37 Celsius, 1 hour):")
                 data = tatapov.annealing_data["37C"][self.enzyme_tatapov_lookup[enzyme]]
                 subset = tatapov.data_subset(
                     data, self.overhang_input, add_reverse=True
