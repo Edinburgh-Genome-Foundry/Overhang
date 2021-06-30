@@ -131,6 +131,28 @@ class OverhangSet:
         if not self.self_misanneals == "":
             self.has_warnings = True
 
+        misanneals = []
+        for oh1, oh2 in itertools.combinations(self.overhangs, 2):
+            # 10 below is a good cutoff for misannealing pairs
+            if (
+                subset.loc[
+                    [oh1.overhang, oh1.overhang_rc], [oh2.overhang, oh2.overhang_rc]
+                ]
+                > 10
+            ).any(axis=None):
+                misanneals += [
+                    oh1.overhang
+                    + "/"
+                    + oh1.overhang_rc
+                    + " ~ "
+                    + oh2.overhang
+                    + "/"
+                    + oh2.overhang_rc
+                ]
+        self.misanneals = "; ".join(misanneals)
+        if not self.misanneals == "":
+            self.has_warnings = True
+
     def find_similar_overhangs(self, difference_threshold=None):
         """Find overhangs that differ in fewer nucleotides than the threshold.
 
