@@ -128,5 +128,7 @@ def write_overhangset_report(target, overhangset):
         SET_REPORT_TEMPLATE,
         overhangset=overhangset,
         number_of_overhangs=len(overhangset.overhangs),
+        # Report overhang pairs with 1 (less than 2) difference:
+        similar_overhangs=overhangset.find_similar_overhangs(difference_threshold=2),
     )
     write_report(html, target, extra_stylesheets=(STYLESHEET,))
