@@ -29,11 +29,25 @@ else
 
 p.
   There are <b>{{ number_of_overhangs }}</b> overhangs in this set. The restriction
-   enzyme used for this set is <b>{{ overhangset.enzymes[0] }}</b>.
+   enzyme used for this set is <b>{{ overhangset.enzyme }}</b>.
+
+if overhangset.has_duplicates
+  strong #[span.red Error!] Duplicate overhangs in set.
+
+if overhangset.palindromic_text
+  p
+    strong #[span.red Error!] {{ overhangset.palindromic_text }}
+
+if overhangset.has_rc_error
+  p
+    strong #[span.red Error!] {{ overhangset.rc_error_text }}
 
 p {{ similar_overhangs }}
 
 p Please see the Appendix on the last page for an explanation of details.
+
+
+<div style = "display:block; clear:both; page-break-after:always;"></div>
 
 p <a href="https://github.com/Edinburgh-Genome-Foundry/tatapov">Tatapov</a> annealing plot:
 

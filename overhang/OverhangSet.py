@@ -18,8 +18,8 @@ class OverhangSet:
     **overhangs**
     > A list of overhang strings (`list`). Example: `["TAGG", "ATGG", "GACT"]`.
 
-    **enzymes**
-    > Enzyme used for assembly (`list`). Example: `["Esp3I"]`.
+    **enzyme**
+    > Enzyme used for assembly (`str`). Example: `"Esp3I"`.
     """
 
     enzyme_tatapov_lookup = {
@@ -54,9 +54,10 @@ class OverhangSet:
             overhang.overhang for overhang in self.overhangs if overhang.is_palindromic
         ]
         if len(self.palindromic_oh) != 0:
-            print(
-                "Incorrect set! Palindromic overhang(s):", self.palindromic_oh,
+            self.palindromic_text = "Palindromic overhang(s): " + "; ".join(
+                self.palindromic_oh
             )
+            print(("Incorrect set! " + self.palindromic_text))
             self.has_errors = True
 
         # REVERSE COMPLEMENT
@@ -65,10 +66,11 @@ class OverhangSet:
         rc_oh = nonpalindromic_oh & nonpalindromic_oh_rc
         if rc_oh:
             self.has_rc_error = True
-            print(
-                "Incorrect set! Nonpalindromic overhang(s) with reverse complement:",
-                rc_oh,
+            self.rc_error_text = (
+                "Nonpalindromic overhang(s) with reverse complement: "
+                + "; ".join(rc_oh)
             )
+            print(("Incorrect set! " + self.rc_error_text))
             self.has_errors = True
         else:
             self.has_rc_error = False
@@ -111,7 +113,7 @@ class OverhangSet:
             "BbsI": "2020_01h_BbsI",
         }
         # Prepare data:
-        data = tatapov.annealing_data["37C"][enzyme_tatapov_lookup[self.enzymes[0]]]
+        data = tatapov.annealing_data["37C"][enzyme_tatapov_lookup[self.enzyme]]
         subset = tatapov.data_subset(data, self.overhang_input, add_reverse=True)
 
         # WEAK ANNEALS

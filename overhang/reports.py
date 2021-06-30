@@ -105,7 +105,7 @@ def write_overhangset_report(target, overhangset):
         "BbsI": "2020_01h_BbsI",
     }
     # Prepare data for the plots:
-    data = tatapov.annealing_data["37C"][enzyme_tatapov_lookup[overhangset.enzymes[0]]]
+    data = tatapov.annealing_data["37C"][enzyme_tatapov_lookup[overhangset.enzyme]]
 
     overhangset.inspect_overhangs()
     height = overhangset.ax.figure.get_size_inches()[1]
