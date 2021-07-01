@@ -36,6 +36,7 @@ class OverhangSet:
         else:
             self.has_duplicates = False
         self.overhang_input = overhangs
+        self.overhang_input_txt = ", ".join(self.overhang_input)
         self.enzyme = enzyme
         self.name = name
         self.has_warnings = False  # used during evaluation of set and reporting

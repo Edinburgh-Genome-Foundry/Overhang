@@ -30,6 +30,7 @@ else
 p.
   There are <b>{{ number_of_overhangs }}</b> overhangs in this set. The restriction
    enzyme used for this set is <b>{{ overhangset.enzyme }}</b>.
+p Overhangs in this set: {{ overhangset.overhang_input_txt }}.
 
 if overhangset.has_errors
   if overhangset.has_duplicates
