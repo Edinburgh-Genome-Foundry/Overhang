@@ -37,9 +37,11 @@ overhangset = oh.OverhangSet(overhangs=EMMA_overhangs, name="EMMA")
 oh.write_overhangset_report("set_report_EMMA.pdf", overhangset)
 
 ecoflex_level_1 = ["ATCT", "TGCC", "CCGG", "GAAG", "CTTC", "TTAG"]
-overhangset = oh.OverhangSet(overhangs=ecoflex_level_1, name="EcoFlex level 1")
-oh.write_overhangset_report("set_report_ecoflex_level_1.pdf", overhangset)
+overhangset = oh.OverhangSet(overhangs=ecoflex_level_1, name="EcoFlex level 1->2")
+oh.write_overhangset_report("set_report_ecoflex_level_1to2.pdf", overhangset)
 
 ecoflex_level_2 = ["CTAT", "GTAC", "GGAC", "TCGA", "TGTT"]
-overhangset = oh.OverhangSet(overhangs=ecoflex_level_2, name="EcoFlex level 2")
-oh.write_overhangset_report("set_report_ecoflex_level_2.pdf", overhangset)
+overhangset = oh.OverhangSet(
+    overhangs=ecoflex_level_2, enzyme="BsaI", name="EcoFlex level 2->3"
+)
+oh.write_overhangset_report("set_report_ecoflex_level_2to3.pdf", overhangset)
