@@ -1,4 +1,5 @@
 import itertools
+import networkx
 
 import tatapov
 
@@ -154,7 +155,7 @@ class OverhangSet:
             self.has_warnings = True
 
         # MISANNEALS
-        misanneals = []
+        self.misanneals_list = []
         for oh1, oh2 in itertools.combinations(self.overhangs, 2):
             # 10 below is a good cutoff for misannealing pairs
             if (
@@ -163,16 +164,22 @@ class OverhangSet:
                 ]
                 > 10
             ).any(axis=None):
-                misanneals += [
-                    oh1.overhang
-                    + "/"
-                    + oh1.overhang_rc
-                    + " ~ "
-                    + oh2.overhang
-                    + "/"
-                    + oh2.overhang_rc
+                # oh and reverse complement, in a list with its misannealing pair
+                self.misanneals_list += [
+                    [[oh1.overhang, oh1.overhang_rc], [oh2.overhang, oh2.overhang_rc]]
                 ]
-        self.misanneals = "; ".join(misanneals)
+        # Create a text from the 4 overhangs, for the report:
+        self.misanneals = [
+            misannealing_pair[0][0]
+            + "/"
+            + misannealing_pair[0][1]
+            + " ~ "
+            + misannealing_pair[1][0]
+            + "/"
+            + misannealing_pair[1][1]
+            for misannealing_pair in self.misanneals_list
+        ]
+        self.misanneals = "; ".join(self.misanneals)
         if not self.misanneals == "":
             self.has_warnings = True
 
@@ -216,7 +223,7 @@ class OverhangSet:
         return similar_overhangs
 
     def find_perfect_subset(self):
-        self.inspect_overhangs()
+        self.inspect_overhangs(make_plot=False)
         # REMOVE WEAK
         oh_to_remove = [oh for oh_pair in self.weak_anneals_list for oh in oh_pair]
         self.subset = set(self.overhang_input) - set(oh_to_remove)
@@ -224,3 +231,18 @@ class OverhangSet:
         oh_to_remove = [oh for oh_pair in self.self_misanneals_list for oh in oh_pair]
         self.subset = set(self.subset) - set(oh_to_remove)
         # REMOVE MISANNEALING
+        compatible_overhangs = []
+        misanneals_for_loop = [pair[0] + pair[1] for pair in self.misanneals_list]
+        for oh1, oh2 in itertools.combinations(self.subset, 2):
+            add_oh = True
+            for pair in misanneals_for_loop:
+                if oh1 in pair and oh2 in pair:
+                    add_oh = False
+                    break
+            if add_oh:
+                compatible_overhangs += [(oh1, oh2)]
+        graph = networkx.Graph(compatible_overhangs)
+        max_clique, clique_size = networkx.max_weight_clique(graph, None)
+        self.subset = max_clique
+        print("Overhangs in subset: " + str(self.subset))
+        print("Number of overhangs in subset: " + str(clique_size))
