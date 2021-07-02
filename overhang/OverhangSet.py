@@ -4,7 +4,7 @@ import networkx
 import tatapov
 
 from .Overhang import Overhang, get_overhang_distance
-from .tools import reverse_complement
+from .tools import reverse_complement, enzyme_tatapov_lookup
 
 
 class OverhangSet:
@@ -25,13 +25,6 @@ class OverhangSet:
     **name**
     > Name of the set (`str`).
     """
-
-    enzyme_tatapov_lookup = {
-        "BsaI": "2020_01h_BsaI",
-        "BsmBI": "2020_01h_BsmBI",
-        "Esp3I": "2020_01h_Esp3I",
-        "BbsI": "2020_01h_BbsI",
-    }
 
     def __init__(self, overhangs, enzyme="Esp3I", name="Unnamed set"):
         self.overhangs = [Overhang(overhang) for overhang in overhangs]
@@ -112,9 +105,7 @@ class OverhangSet:
         if make_plot:
             figwidth = len(self.overhang_input)
             print(self.enzyme, "Tatapov plot (37 Celsius, 1 hour):")
-            data = tatapov.annealing_data["37C"][
-                self.enzyme_tatapov_lookup[self.enzyme]
-            ]
+            data = tatapov.annealing_data["37C"][enzyme_tatapov_lookup[self.enzyme]]
             subset = tatapov.data_subset(data, self.overhang_input, add_reverse=True)
             self.ax, _ = tatapov.plot_data(subset, figwidth=figwidth, plot_color="Reds")
             self.ax.figure.tight_layout()
@@ -122,7 +113,7 @@ class OverhangSet:
 
     def evaluate_annealing(self):
         # Prepare data:
-        data = tatapov.annealing_data["37C"][self.enzyme_tatapov_lookup[self.enzyme]]
+        data = tatapov.annealing_data["37C"][enzyme_tatapov_lookup[self.enzyme]]
         subset = tatapov.data_subset(data, self.overhang_input, add_reverse=True)
 
         # WEAK ANNEALS
@@ -249,7 +240,7 @@ class OverhangSet:
         # Visualize subset:
         figwidth = len(self.subset)
         print(self.enzyme, "Tatapov plot (37 Celsius, 1 hour):")
-        data = tatapov.annealing_data["37C"][self.enzyme_tatapov_lookup[self.enzyme]]
+        data = tatapov.annealing_data["37C"][enzyme_tatapov_lookup[self.enzyme]]
         subset = tatapov.data_subset(data, self.subset, add_reverse=True)
         self.ax, _ = tatapov.plot_data(subset, figwidth=figwidth, plot_color="Reds")
         self.ax.figure.tight_layout()

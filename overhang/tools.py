@@ -5,6 +5,13 @@ import matplotlib.pyplot as plt
 
 complements = {"A": "T", "T": "A", "C": "G", "G": "C"}
 
+enzyme_tatapov_lookup = {
+    "BsaI": "2020_01h_BsaI",
+    "BsmBI": "2020_01h_BsmBI",
+    "Esp3I": "2020_01h_Esp3I",
+    "BbsI": "2020_01h_BbsI",
+}
+
 
 def reverse_complement(sequence):
     """Return the reverse complement of a DNA sequence.

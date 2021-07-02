@@ -14,7 +14,7 @@ from pdf_reports import (
 
 import pdf_reports.tools as pdf_tools
 
-from .tools import subset_data_for_overhang, plot_data
+from .tools import subset_data_for_overhang, plot_data, enzyme_tatapov_lookup
 from .version import __version__
 
 THIS_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -50,12 +50,6 @@ def write_pdf_report(target, overhangs, enzyme="Esp3I"):
     > Enzyme used for assembly (`str`). Options: `"BsaI"`, `"BsmBI"`, `"Esp3I"` or
     `"BbsI"`.
     """
-    enzyme_tatapov_lookup = {
-        "BsaI": "2020_01h_BsaI",
-        "BsmBI": "2020_01h_BsmBI",
-        "Esp3I": "2020_01h_Esp3I",
-        "BbsI": "2020_01h_BbsI",
-    }
     # Prepare data for the plots:
     data = tatapov.annealing_data["37C"][enzyme_tatapov_lookup[enzyme]]
 
@@ -97,13 +91,6 @@ def write_overhangset_report(target, overhangset):
     **overhangset**
     > An OverhangSet instance.
     """
-    # Prepare data for the plots:
-    enzyme_tatapov_lookup = {
-        "BsaI": "2020_01h_BsaI",
-        "BsmBI": "2020_01h_BsmBI",
-        "Esp3I": "2020_01h_Esp3I",
-        "BbsI": "2020_01h_BbsI",
-    }
     # Prepare data for the plots:
     data = tatapov.annealing_data["37C"][enzyme_tatapov_lookup[overhangset.enzyme]]
 
