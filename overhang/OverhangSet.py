@@ -20,6 +20,9 @@ class OverhangSet:
 
     **enzyme**
     > Enzyme used for assembly (`str`). Example: `"Esp3I"`.
+
+    **name**
+    > Name of the set (`str`).
     """
 
     enzyme_tatapov_lookup = {
@@ -43,7 +46,8 @@ class OverhangSet:
         self.has_errors = False  # used during evaluation of set and reporting
         self.overhang_length = len(self.overhang_input[0])
 
-    def inspect_overhangs(self):
+    def inspect_overhangs(self, make_plot=True):
+        """Inspect compatibility of overhangs and detect potential errors in the set."""
         # DUPLICATES
         if self.has_duplicates:
             print("Incorrect set! Duplicate overhangs")
@@ -104,13 +108,16 @@ class OverhangSet:
         self.evaluate_annealing()  # also sets `has_warnings`
 
         # Tatapov plots:
-        figwidth = len(self.overhang_input)
-        print(self.enzyme, "Tatapov plot (37 Celsius, 1 hour):")
-        data = tatapov.annealing_data["37C"][self.enzyme_tatapov_lookup[self.enzyme]]
-        subset = tatapov.data_subset(data, self.overhang_input, add_reverse=True)
-        self.ax, _ = tatapov.plot_data(subset, figwidth=figwidth, plot_color="Reds")
-        self.ax.figure.tight_layout()
-        self.ax.plot()
+        if make_plot:
+            figwidth = len(self.overhang_input)
+            print(self.enzyme, "Tatapov plot (37 Celsius, 1 hour):")
+            data = tatapov.annealing_data["37C"][
+                self.enzyme_tatapov_lookup[self.enzyme]
+            ]
+            subset = tatapov.data_subset(data, self.overhang_input, add_reverse=True)
+            self.ax, _ = tatapov.plot_data(subset, figwidth=figwidth, plot_color="Reds")
+            self.ax.figure.tight_layout()
+            self.ax.plot()
 
     def evaluate_annealing(self):
         # Prepare data:
@@ -119,23 +126,30 @@ class OverhangSet:
 
         # WEAK ANNEALS
         # See cutoff 400 in Pryor et al. Figure 2.
-        weak_anneals = [
-            oh.overhang + "/" + oh.overhang_rc
+        self.weak_anneals_list = [
+            [oh.overhang, oh.overhang_rc]
             for oh in self.overhangs
             if subset[oh.overhang][oh.overhang_rc] < 400
         ]
-        self.weak_anneals = "; ".join(weak_anneals)
+        # Convert to text
+        self.weak_anneals = [
+            oh_pair[0] + "/" + oh_pair[1] for oh_pair in self.weak_anneals_list
+        ]
+        self.weak_anneals = "; ".join(self.weak_anneals)
         if not self.weak_anneals == "":
             self.has_warnings = True
 
         # SELF-MISANNEALS
-        self_misanneals = [
-            oh.overhang + "/" + oh.overhang_rc
+        self.self_misanneals_list = [
+            [oh.overhang, oh.overhang_rc]
             for oh in self.overhangs
             if subset[oh.overhang][oh.overhang] != 0
             or subset[oh.overhang_rc][oh.overhang_rc] != 0
         ]
-        self.self_misanneals = "; ".join(self_misanneals)
+        self.self_misanneals = [
+            oh_pair[0] + "/" + oh_pair[1] for oh_pair in self.self_misanneals_list
+        ]
+        self.self_misanneals = "; ".join(self.self_misanneals)
         if not self.self_misanneals == "":
             self.has_warnings = True
 
@@ -200,3 +214,13 @@ class OverhangSet:
             )
 
         return similar_overhangs
+
+    def find_perfect_subset(self):
+        self.inspect_overhangs()
+        # REMOVE WEAK
+        oh_to_remove = [oh for oh_pair in self.weak_anneals_list for oh in oh_pair]
+        self.subset = set(self.overhang_input) - set(oh_to_remove)
+        # REMOVE SELF-MISANNEALING
+        oh_to_remove = [oh for oh_pair in self.self_misanneals_list for oh in oh_pair]
+        self.subset = set(self.subset) - set(oh_to_remove)
+        # REMOVE MISANNEALING
