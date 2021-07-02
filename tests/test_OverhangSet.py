@@ -10,3 +10,7 @@ def test_OverhangSet():
     assert overhangset.has_errors
     assert overhangset.has_rc_error
     assert overhangset.has_warnings
+
+    overhangset = overhang.OverhangSet(overhangs=["CTAT", "GGAC", "TGTT"], name="Test")
+    overhangset.find_perfect_subset()
+    assert set(overhangset.subset) == set(["TGTT", "CTAT"])
