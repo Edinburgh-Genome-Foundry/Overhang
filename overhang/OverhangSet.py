@@ -246,3 +246,11 @@ class OverhangSet:
         self.subset = max_clique
         print("Overhangs in subset: " + str(self.subset))
         print("Number of overhangs in subset: " + str(clique_size))
+        # Visualize subset:
+        figwidth = len(self.subset)
+        print(self.enzyme, "Tatapov plot (37 Celsius, 1 hour):")
+        data = tatapov.annealing_data["37C"][self.enzyme_tatapov_lookup[self.enzyme]]
+        subset = tatapov.data_subset(data, self.subset, add_reverse=True)
+        self.ax, _ = tatapov.plot_data(subset, figwidth=figwidth, plot_color="Reds")
+        self.ax.figure.tight_layout()
+        self.ax.plot()
