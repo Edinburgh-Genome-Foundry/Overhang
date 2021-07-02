@@ -5,6 +5,7 @@ from .tools import (
     generate_overhang_pairs,
     subset_data_for_overhang,
     plot_data,
+    filter_overhangs,
 )
 from .reports import write_pdf_report, write_overhangset_report
 

@@ -1,5 +1,7 @@
 import itertools
 
+import tatapov
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -152,3 +154,41 @@ def plot_data(df, ax=None, colorbar=True, figwidth=8, plot_color="Reds"):
     plt.close()
 
     return ax, im
+
+
+def filter_overhangs(overhangs, enzyme="Esp3I"):
+    """Filter overhangs using the Tatapov package.
+
+    Filter out the weakly annealing and self-misannealing overhangs.
+
+    **Parameters**
+
+    **overhangs**
+    > List of Overhang instances (`list`).
+
+    **enzyme**
+    > Enzyme used with the overhangs (`str`). See `overhang.tools.enzyme_tatapov_lookup`
+    for options.
+    """
+    data = tatapov.annealing_data["37C"][enzyme_tatapov_lookup[enzyme]]
+    overhang_input = [overhang.overhang for overhang in overhangs]
+    subset = tatapov.data_subset(data, overhang_input, add_reverse=True)
+
+    # WEAK ANNEALS
+    # See cutoff 400 in Pryor et al. Figure 2.
+    strong_overhangs = []
+    for overhang in overhangs:
+        if subset[overhang.overhang][overhang.overhang_rc] >= 400:
+            strong_overhangs += [overhang]
+
+    # SELF-MISANNEALS
+    # Use 0 as cutoff:
+    good_overhangs = []
+    for overhang in strong_overhangs:
+        if (
+            subset[overhang.overhang][overhang.overhang] == 0
+            and subset[overhang.overhang_rc][overhang.overhang_rc] == 0
+        ):
+            good_overhangs += [overhang]
+
+    return good_overhangs
