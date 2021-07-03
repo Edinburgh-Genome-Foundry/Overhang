@@ -102,7 +102,7 @@ def generate_all_overhangs(overhang_length=4):
 
 
 def get_overhang_distance(oh1, oh2):
-    """Calculate number of different letters between two Overhang instances.
+    """Calculate number of different letters between two `Overhang` instances.
 
 
     **Parameters**
@@ -110,7 +110,7 @@ def get_overhang_distance(oh1, oh2):
     **oh1**
     > An `Overhang` instance.
 
-    **oh2
+    **oh2**
     > An `Overhang` instance.
     """
     distance = get_hamming_distance(oh1.overhang, oh2.overhang)

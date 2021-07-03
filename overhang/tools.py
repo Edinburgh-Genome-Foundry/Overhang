@@ -36,7 +36,7 @@ def gc_content(sequence):
 
     **Parameters**
 
-    **sequence*
+    **sequence**
     > An ATGC string (`str`).
     """
     return 1.0 * len([c for c in sequence if c in "GC"]) / len(sequence)
@@ -80,7 +80,7 @@ def generate_overhang_pairs(overhang_length=4):
 
 
 def subset_data_for_overhang(dataframe, overhang, horizontal=True, filter=True):
-    """Subset tatapov dataframe for given overhang.
+    """Subset Tatapov dataframe for given overhang.
 
 
     **Parameters**
@@ -112,7 +112,7 @@ def subset_data_for_overhang(dataframe, overhang, horizontal=True, filter=True):
 
 
 def plot_data(df, ax=None, colorbar=True, figwidth=8, plot_color="Reds"):
-    """Plot a (restricted) tatapov dataframe.
+    """Plot a (restricted) Tatapov dataframe.
 
 
     **Parameters**

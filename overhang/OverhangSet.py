@@ -218,7 +218,7 @@ class OverhangSet:
         return similar_overhangs
 
     def find_perfect_subset(self):
-        """"Find a better overhang set by removing bad overhang interactions.
+        """Find a better overhang set by removing bad overhang interactions.
 
         Bad interactions are weak anneals, self-misanneals and misanneals.
         """

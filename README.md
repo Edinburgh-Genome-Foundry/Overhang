@@ -48,7 +48,7 @@ oh.write_overhangset_report("examples/set_report_Example.pdf", overhangset)
 The first page of [the report](examples/set_report_Example.pdf):
 
 <p align="center">
-<img alt="Report" title="EGF" src="images/overhang_set_report.png" width="300">
+<img alt="Report" title="EGF" src="images/overhang_set_report.png" width="600">
 </p>
 
 
