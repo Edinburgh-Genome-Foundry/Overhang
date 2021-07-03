@@ -29,9 +29,9 @@ overhang = oh.Overhang("TCAT")
 dir(overhang)
 
 overhang_classes = oh.generate_all_overhangs()
-oh.write_pdf_report(target="examples/compendium.pdf", overhangs=overhang_classes)
+oh.write_pdf_report(target="examples/compendium_Esp3I.pdf", overhangs=overhang_classes)
 ```
-See [compendium.pdf](examples/compendium.pdf).
+See [compendium.pdf](examples/compendium_Esp3I.pdf).
 
 Inspect a set of overhangs for assembly:
 ```python
