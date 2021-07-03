@@ -112,6 +112,10 @@ class OverhangSet:
             self.ax.plot()
 
     def evaluate_annealing(self):
+        """Evaluate weakly anneals, self-misanneals and misanneals between overhangs.
+
+        Used in `inspect_overhangs()`.
+        """
         # Prepare data:
         data = tatapov.annealing_data["37C"][enzyme_tatapov_lookup[self.enzyme]]
         subset = tatapov.data_subset(data, self.overhang_input, add_reverse=True)
@@ -214,6 +218,10 @@ class OverhangSet:
         return similar_overhangs
 
     def find_perfect_subset(self):
+        """"Find a better overhang set by removing bad overhang interactions.
+
+        Bad interactions are weak anneals, self-misanneals and misanneals.
+        """
         self.inspect_overhangs(make_plot=False)
         # REMOVE WEAK
         oh_to_remove = [oh for oh_pair in self.weak_anneals_list for oh in oh_pair]

@@ -41,10 +41,10 @@ def write_pdf_report(target, overhangs, enzyme="Esp3I"):
     **Parameters**
 
     **target**
-    > Path for PDF file.
+    > Path for PDF file (`str`).
 
     **overhangs**
-    > List of Overhang instances.
+    > List of `Overhang` instances (`list`).
 
     **enzyme**
     > Enzyme used for assembly (`str`). Options: `"BsaI"`, `"BsmBI"`, `"Esp3I"` or
@@ -86,10 +86,10 @@ def write_overhangset_report(target, overhangset):
     **Parameters**
 
     **target**
-    > Path for PDF file.
+    > Path for PDF file (`str`).
 
     **overhangset**
-    > An OverhangSet instance.
+    > An `OverhangSet` instance.
     """
     # Prepare data for the plots:
     data = tatapov.annealing_data["37C"][enzyme_tatapov_lookup[overhangset.enzyme]]
