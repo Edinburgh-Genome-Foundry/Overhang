@@ -101,9 +101,25 @@ p #[span.red ☒] : unusable palindromic sequence
 
 p.
   <b>Overhangs</b> are unpaired nucleotides at the end of a double-stranded linear DNA
-  molecule.
-  Overhangs can be on either strand; 5' or 3' overhangs. After DNA ligation with another
-  DNA with a complementary overhang, these remain in the sequence as fusion sites ("scars").
+  molecule. These overhangs create "sticky" (non-blunt) DNA ends.
+  Overhangs can be on either strand; 5' or 3' overhangs.
+  During DNA assembly, these overhangs are created by type IIS restriction enzymes, and
+  ligated with another DNA with a complementary overhang, by ligases.
+  The type of the restriction enzyme and the ligase influences the misannealing rate,
+  which is displayed in a summary plot. For more details, see the
+  <a href="https://github.com/Edinburgh-Genome-Foundry/tatapov">Tatapov</a> package and
+  Pryor et al. (<a href="https://doi.org/10.1371/journal.pone.0238592">PLoS ONE (2020) 15(9): e0238592</a>).
+
+p.
+  After the assembly, these overhangs remain in the sequence as fusion sites ("scars").
+  If this is in a coding sequence (CDS), then addition of nucleotides can ensure that
+  the two joining parts remain in the same translation frame. By carefully choosing which
+  nucleotides we add, we can select suitable amino acids, or start/stop codons.
+  For each overhang, a list of codons is also displayed that shows translation options.
+  The <a href="https://github.com/Edinburgh-Genome-Foundry/genedom">GeneDom package</a>
+  can be used for automating the addition of these nucleotides, the overhangs and the
+  enzyme sites.
+
 
 p
   strong Overhang sets
