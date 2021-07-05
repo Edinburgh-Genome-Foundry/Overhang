@@ -55,29 +55,25 @@ class Overhang:
         """
         start = ["ATG"]
         stop = ["TAA", "TAG", "TGA"]
+        self.has_start_codon = False
+        self.has_stop_codon = False
+        self.has_rc_start_codon = False
+        self.has_rc_stop_codon = False
         for codon in start:
             if self.overhang.count(codon) != 0:
                 self.has_start_codon = True
-            else:
-                self.has_start_codon = False
 
         for codon in stop:  # "ATGA" can have both
             if self.overhang.count(codon) != 0:
                 self.has_stop_codon = True
-            else:
-                self.has_stop_codon = False
 
         for codon in start:
             if self.overhang_rc.count(codon) != 0:
                 self.has_rc_start_codon = True
-            else:
-                self.has_rc_start_codon = False
 
         for codon in stop:  # "ATGA" can have both
             if self.overhang_rc.count(codon) != 0:
                 self.has_rc_stop_codon = True
-            else:
-                self.has_rc_stop_codon = False
 
 
 def generate_all_overhangs(overhang_length=4):
