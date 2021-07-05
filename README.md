@@ -31,7 +31,7 @@ dir(overhang)
 overhang_classes = oh.generate_all_overhangs()
 oh.write_pdf_report(target="examples/compendium_Esp3I.pdf", overhangs=overhang_classes)
 ```
-See [compendium.pdf](examples/compendium_Esp3I.pdf).
+See [compendium_Esp3I.pdf](https://github.com/Edinburgh-Genome-Foundry/Overhang/blob/main/examples/compendium_Esp3I.pdf).
 
 Inspect a set of overhangs for assembly:
 ```python
@@ -45,7 +45,7 @@ oh.write_overhangset_report("examples/set_report_Example.pdf", overhangset)
 <img alt="Plot" title="EGF" src="images/plot.png" width="300">
 </p>
 
-The first page of [the report](examples/set_report_Example.pdf):
+The first page of [the report](https://github.com/Edinburgh-Genome-Foundry/Overhang/blob/main/examples/set_report_Example.pdf):
 
 <p align="center">
 <img alt="Report" title="EGF" src="images/overhang_set_report.png" width="600">
