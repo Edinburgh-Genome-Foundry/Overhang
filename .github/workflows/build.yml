@@ -24,7 +24,6 @@ jobs:
         run: |
           python -m pytest --cov overhang --cov-report term-missing
       - name: Coveralls
-        uses: coverallsapp/github-action@master
         run: coveralls
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
