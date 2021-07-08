@@ -73,9 +73,11 @@ Another approach is to iteratively remove the worst weakly annealing, self-misan
 Overhang uses the [semantic versioning](https://semver.org) scheme.
 
 
-## Copyright
+## License = MIT
 
-Copyright 2021 Edinburgh Genome Foundry
+Overhang is free/libre and open-source software, which means the users have the freedom to run, study, change and distribute the software.
 
 Overhang was written at the [Edinburgh Genome Foundry](https://edinburgh-genome-foundry.github.io/)
 by [Peter Vegh](https://github.com/veghp).
+
+Copyright 2021 Edinburgh Genome Foundry, University of Edinburgh

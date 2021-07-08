@@ -11,6 +11,7 @@ setup(
     description="Compendium of overhangs",
     long_description=open("pypi-readme.rst").read(),
     long_description_content_type="text/x-rst",
+    license="MIT",
     keywords="biology",
     packages=find_packages(exclude="docs"),
     include_package_data=True,
