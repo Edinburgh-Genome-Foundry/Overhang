@@ -7,6 +7,8 @@
 
 [![build](https://github.com/Edinburgh-Genome-Foundry/Overhang/actions/workflows/build.yml/badge.svg)](https://github.com/Edinburgh-Genome-Foundry/Overhang/actions/workflows/build.yml)
 
+[![coverage](https://coveralls.io/repos/github/Edinburgh-Genome-Foundry/Overhang/badge.svg?branch=main)](https://coveralls.io/github/Edinburgh-Genome-Foundry/Overhang?branch=main)
+
 
 This Python package generates a description of an input set of DNA overhangs and outputs a PDF file.
 Additionally, it evaluates suitability of an input set of overhangs for Golden Gate DNA assembly.
@@ -15,8 +17,7 @@ Additionally, it evaluates suitability of an input set of overhangs for Golden G
 ## Install
 
 ```
-# pip install overhang
-pip install --upgrade git+https://github.com/Edinburgh-Genome-Foundry/overhang.git@main
+pip install overhang
 ```
 
 
