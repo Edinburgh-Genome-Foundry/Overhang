@@ -38,7 +38,7 @@ class OverhangSet:
         self.name = name
         self.has_warnings = False  # used during evaluation of set and reporting
         self.has_errors = False  # used during evaluation of set and reporting
-        self.overhang_length = len(self.overhang_input[0])
+        self.overhang_length = len(self.overhang_input[0])  # check length on first one
 
     def inspect_overhangs(self, make_plot=True):
         """Inspect compatibility of overhangs and detect potential errors in the set."""
@@ -79,22 +79,19 @@ class OverhangSet:
 
         # SET SIZE
         # Based on Pryor et al., PLoS ONE (2020):
-        if self.overhang_length == 3:  # check overhang length on first one
+        if self.overhang_length == 3:
             n = 10
-            if len(self.overhang_input) > n:
-                self.set_size_text = (
-                    "Assembly fidelity significantly decreases when using "
-                    + "more than %d overhangs." % n
-                )  # text used in report
-                print("Warning! " + self.set_size_text)
         elif self.overhang_length == 4:
             n = 20
-            if len(self.overhang_input) > n:
-                self.set_size_text = (
-                    "Assembly fidelity significantly decreases when using "
-                    + "more than %d overhangs." % n
-                )
-                print("Warning! " + self.set_size_text)
+        else:
+            n = 0  # serves as False
+
+        if n and len(self.overhang_input) > n:
+            self.set_size_text = (
+                "Assembly fidelity significantly decreases when using "
+                + "more than %d overhangs." % n
+            )  # text used in report
+            print("Warning! " + self.set_size_text)
         else:
             self.set_size_text = ""
 
