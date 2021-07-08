@@ -12,7 +12,7 @@ setup(
     long_description=open("pypi-readme.rst").read(),
     long_description_content_type="text/x-rst",
     license="MIT",
-    keywords="biology",
+    keywords="biology overhang dna",
     packages=find_packages(exclude="docs"),
     include_package_data=True,
     install_requires=[
