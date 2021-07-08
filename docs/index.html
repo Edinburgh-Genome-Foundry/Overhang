@@ -242,8 +242,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#copyright" class="md-nav__link">
-    Copyright
+  <a href="#license-mit" class="md-nav__link">
+    License = MIT
   </a>
   
 </li>
@@ -434,8 +434,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#copyright" class="md-nav__link">
-    Copyright
+  <a href="#license-mit" class="md-nav__link">
+    License = MIT
   </a>
   
 </li>
@@ -465,12 +465,12 @@
 </p>
 
 <h1 id="egfs-compendium-of-overhangs">EGF's Compendium of overhangs</h1>
-<p><a href="https://github.com/Edinburgh-Genome-Foundry/Overhang/actions/workflows/build.yml"><img alt="build" src="https://github.com/Edinburgh-Genome-Foundry/Overhang/actions/workflows/build.yml/badge.svg" /></a></p>
+<p><a href="https://github.com/Edinburgh-Genome-Foundry/Overhang/actions/workflows/build.yml"><img alt="build" src="https://github.com/Edinburgh-Genome-Foundry/Overhang/actions/workflows/build.yml/badge.svg" /></a>
+<a href="https://coveralls.io/github/Edinburgh-Genome-Foundry/Overhang?branch=main"><img alt="coverage" src="https://coveralls.io/repos/github/Edinburgh-Genome-Foundry/Overhang/badge.svg?branch=main" /></a></p>
 <p>This Python package generates a description of an input set of DNA overhangs and outputs a PDF file.
 Additionally, it evaluates suitability of an input set of overhangs for Golden Gate DNA assembly.</p>
 <h2 id="install">Install</h2>
-<div class="codehilite"><pre><span></span><code><span class="err">#</span><span class="w"> </span><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">overhang</span><span class="w"></span>
-<span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="c1">--upgrade git+https://github.com/Edinburgh-Genome-Foundry/overhang.git@main</span>
+<div class="codehilite"><pre><span></span><code>pip install overhang
 </code></pre></div>
 
 
@@ -481,11 +481,11 @@ Additionally, it evaluates suitability of an input set of overhangs for Golden G
 <span class="nb">dir</span><span class="p">(</span><span class="n">overhang</span><span class="p">)</span>
 
 <span class="n">overhang_classes</span> <span class="o">=</span> <span class="n">oh</span><span class="o">.</span><span class="n">generate_all_overhangs</span><span class="p">()</span>
-<span class="n">oh</span><span class="o">.</span><span class="n">write_pdf_report</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="s2">&quot;examples/compendium.pdf&quot;</span><span class="p">,</span> <span class="n">overhangs</span><span class="o">=</span><span class="n">overhang_classes</span><span class="p">)</span>
+<span class="n">oh</span><span class="o">.</span><span class="n">write_pdf_report</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="s2">&quot;examples/compendium_Esp3I.pdf&quot;</span><span class="p">,</span> <span class="n">overhangs</span><span class="o">=</span><span class="n">overhang_classes</span><span class="p">)</span>
 </code></pre></div>
 
 
-<p>See <a href="examples/compendium.pdf">compendium.pdf</a>.</p>
+<p>See <a href="https://github.com/Edinburgh-Genome-Foundry/Overhang/blob/main/examples/compendium_Esp3I.pdf">compendium_Esp3I.pdf</a>.</p>
 <p>Inspect a set of overhangs for assembly:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">overhangset</span> <span class="o">=</span> <span class="n">oh</span><span class="o">.</span><span class="n">OverhangSet</span><span class="p">(</span>
     <span class="n">overhangs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ATGG&quot;</span><span class="p">,</span> <span class="s2">&quot;GAAA&quot;</span><span class="p">,</span> <span class="s2">&quot;CACC&quot;</span><span class="p">,</span> <span class="s2">&quot;GACT&quot;</span><span class="p">,</span> <span class="s2">&quot;ATGG&quot;</span><span class="p">,</span> <span class="s2">&quot;CCAG&quot;</span><span class="p">,],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Example&quot;</span><span class="p">,</span>
@@ -499,9 +499,9 @@ Additionally, it evaluates suitability of an input set of overhangs for Golden G
 <img alt="Plot" title="EGF" src="images/plot.png" width="300">
 </p>
 
-<p>The first page of <a href="examples/set_report_Example.pdf">the report</a>:</p>
+<p>The first page of <a href="https://github.com/Edinburgh-Genome-Foundry/Overhang/blob/main/examples/set_report_Example.pdf">the report</a>:</p>
 <p align="center">
-<img alt="Report" title="EGF" src="images/overhang_set_report.png" width="300">
+<img alt="Report" title="EGF" src="images/overhang_set_report.png" width="600">
 </p>
 
 <p>Improve an overhang set by removing the bad interactions:</p>
@@ -521,10 +521,11 @@ Additionally, it evaluates suitability of an input set of overhangs for Golden G
 <p>Another approach is to iteratively remove the worst weakly annealing, self-misannealing, and misannealing overhang interactions until the desired number of overhangs is reached.</p>
 <h2 id="versioning">Versioning</h2>
 <p>Overhang uses the <a href="https://semver.org">semantic versioning</a> scheme.</p>
-<h2 id="copyright">Copyright</h2>
-<p>Copyright 2021 Edinburgh Genome Foundry</p>
+<h2 id="license-mit">License = MIT</h2>
+<p>Overhang is free/libre and open-source software, which means the users have the freedom to run, study, change and distribute the software.</p>
 <p>Overhang was written at the <a href="https://edinburgh-genome-foundry.github.io/">Edinburgh Genome Foundry</a>
 by <a href="https://github.com/veghp">Peter Vegh</a>.</p>
+<p>Copyright 2021 Edinburgh Genome Foundry, University of Edinburgh</p>
                 
               
               

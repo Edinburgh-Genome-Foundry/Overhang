@@ -112,7 +112,7 @@ class OverhangSet:
             self.ax.plot()
 
     def evaluate_annealing(self):
-        """Evaluate weakly anneals, self-misanneals and misanneals between overhangs.
+        """Evaluate weak anneals, self-misanneals and misanneals between overhangs.
 
         Used in `inspect_overhangs()`.
         """

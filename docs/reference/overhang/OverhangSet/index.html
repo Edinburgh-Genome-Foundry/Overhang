@@ -937,7 +937,7 @@
 
     <span class="k">def</span> <span class="nf">find_perfect_subset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-        <span class="sd">&quot;&quot;&quot;&quot;Find a better overhang set by removing bad overhang interactions.</span>
+        <span class="sd">&quot;&quot;&quot;Find a better overhang set by removing bad overhang interactions.</span>
 
 <span class="sd">        Bad interactions are weak anneals, self-misanneals and misanneals.</span>
 
@@ -1409,73 +1409,73 @@ DNA assembly.</p>
 
     <span class="n">def</span> <span class="n">find_perfect_subset</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
 
-        <span class="s2">&quot;</span><span class="se">&quot;&quot;</span><span class="s2">&quot;</span><span class="n">Find</span> <span class="n">a</span> <span class="n">better</span> <span class="n">overhang</span> <span class="k">set</span> <span class="k">by</span> <span class="n">removing</span> <span class="n">bad</span> <span class="n">overhang</span> <span class="n">interactions</span><span class="p">.</span>
+        <span class="s2">&quot;</span><span class="se">&quot;&quot;</span><span class="s2">Find a better overhang set by removing bad overhang interactions.</span>
 
-        <span class="n">Bad</span> <span class="n">interactions</span> <span class="n">are</span> <span class="n">weak</span> <span class="n">anneals</span><span class="p">,</span> <span class="n">self</span><span class="o">-</span><span class="n">misanneals</span> <span class="k">and</span> <span class="n">misanneals</span><span class="p">.</span>
+<span class="s2">        Bad interactions are weak anneals, self-misanneals and misanneals.</span>
 
-        <span class="s2">&quot;</span><span class="se">&quot;&quot;</span><span class="s2"></span>
+<span class="s2">        </span><span class="se">&quot;&quot;</span><span class="s2">&quot;</span>
 
-<span class="s2">        self.inspect_overhangs(make_plot=False)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">inspect_overhangs</span><span class="p">(</span><span class="n">make_plot</span><span class="o">=</span><span class="no">False</span><span class="p">)</span>
 
-<span class="s2">        # REMOVE WEAK</span>
+        <span class="c1"># REMOVE WEAK</span>
 
-<span class="s2">        oh_to_remove = [oh for oh_pair in self.weak_anneals_list for oh in oh_pair]</span>
+        <span class="n">oh_to_remove</span> <span class="o">=</span> <span class="err">[</span><span class="n">oh</span> <span class="k">for</span> <span class="n">oh_pair</span> <span class="k">in</span> <span class="n">self</span><span class="p">.</span><span class="n">weak_anneals_list</span> <span class="k">for</span> <span class="n">oh</span> <span class="k">in</span> <span class="n">oh_pair</span><span class="err">]</span>
 
-<span class="s2">        self.subset = set(self.overhang_input) - set(oh_to_remove)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">subset</span> <span class="o">=</span> <span class="kt">set</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">overhang_input</span><span class="p">)</span> <span class="o">-</span> <span class="kt">set</span><span class="p">(</span><span class="n">oh_to_remove</span><span class="p">)</span>
 
-<span class="s2">        # REMOVE SELF-MISANNEALING</span>
+        <span class="c1"># REMOVE SELF-MISANNEALING</span>
 
-<span class="s2">        oh_to_remove = [oh for oh_pair in self.self_misanneals_list for oh in oh_pair]</span>
+        <span class="n">oh_to_remove</span> <span class="o">=</span> <span class="err">[</span><span class="n">oh</span> <span class="k">for</span> <span class="n">oh_pair</span> <span class="k">in</span> <span class="n">self</span><span class="p">.</span><span class="n">self_misanneals_list</span> <span class="k">for</span> <span class="n">oh</span> <span class="k">in</span> <span class="n">oh_pair</span><span class="err">]</span>
 
-<span class="s2">        self.subset = set(self.subset) - set(oh_to_remove)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">subset</span> <span class="o">=</span> <span class="kt">set</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">subset</span><span class="p">)</span> <span class="o">-</span> <span class="kt">set</span><span class="p">(</span><span class="n">oh_to_remove</span><span class="p">)</span>
 
-<span class="s2">        # REMOVE MISANNEALING</span>
+        <span class="c1"># REMOVE MISANNEALING</span>
 
-<span class="s2">        compatible_overhangs = []</span>
+        <span class="n">compatible_overhangs</span> <span class="o">=</span> <span class="err">[]</span>
 
-<span class="s2">        misanneals_for_loop = [pair[0] + pair[1] for pair in self.misanneals_list]</span>
+        <span class="n">misanneals_for_loop</span> <span class="o">=</span> <span class="err">[</span><span class="n">pair</span><span class="err">[</span><span class="mi">0</span><span class="err">]</span> <span class="o">+</span> <span class="n">pair</span><span class="err">[</span><span class="mi">1</span><span class="err">]</span> <span class="k">for</span> <span class="n">pair</span> <span class="k">in</span> <span class="n">self</span><span class="p">.</span><span class="n">misanneals_list</span><span class="err">]</span>
 
-<span class="s2">        for oh1, oh2 in itertools.combinations(self.subset, 2):</span>
+        <span class="k">for</span> <span class="n">oh1</span><span class="p">,</span> <span class="n">oh2</span> <span class="k">in</span> <span class="n">itertools</span><span class="p">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">subset</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">:</span>
 
-<span class="s2">            add_oh = True</span>
+            <span class="n">add_oh</span> <span class="o">=</span> <span class="no">True</span>
 
-<span class="s2">            for pair in misanneals_for_loop:</span>
+            <span class="k">for</span> <span class="n">pair</span> <span class="k">in</span> <span class="n">misanneals_for_loop</span><span class="o">:</span>
 
-<span class="s2">                if oh1 in pair and oh2 in pair:</span>
+                <span class="k">if</span> <span class="n">oh1</span> <span class="k">in</span> <span class="n">pair</span> <span class="k">and</span> <span class="n">oh2</span> <span class="k">in</span> <span class="n">pair</span><span class="o">:</span>
 
-<span class="s2">                    add_oh = False</span>
+                    <span class="n">add_oh</span> <span class="o">=</span> <span class="no">False</span>
 
-<span class="s2">                    break</span>
+                    <span class="n">break</span>
 
-<span class="s2">            if add_oh:</span>
+            <span class="k">if</span> <span class="n">add_oh</span><span class="o">:</span>
 
-<span class="s2">                compatible_overhangs += [(oh1, oh2)]</span>
+                <span class="n">compatible_overhangs</span> <span class="o">+=</span> <span class="err">[</span><span class="p">(</span><span class="n">oh1</span><span class="p">,</span> <span class="n">oh2</span><span class="p">)</span><span class="err">]</span>
 
-<span class="s2">        graph = networkx.Graph(compatible_overhangs)</span>
+        <span class="n">graph</span> <span class="o">=</span> <span class="n">networkx</span><span class="p">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">compatible_overhangs</span><span class="p">)</span>
 
-<span class="s2">        max_clique, clique_size = networkx.max_weight_clique(graph, None)</span>
+        <span class="n">max_clique</span><span class="p">,</span> <span class="n">clique_size</span> <span class="o">=</span> <span class="n">networkx</span><span class="p">.</span><span class="n">max_weight_clique</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="k">None</span><span class="p">)</span>
 
-<span class="s2">        self.subset = max_clique</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">subset</span> <span class="o">=</span> <span class="n">max_clique</span>
 
-<span class="s2">        print(&quot;</span><span class="n">Overhangs</span> <span class="k">in</span> <span class="n">subset</span><span class="o">:</span> <span class="s2">&quot; + str(self.subset))</span>
+        <span class="n">print</span><span class="p">(</span><span class="s2">&quot;Overhangs in subset: &quot;</span> <span class="o">+</span> <span class="n">str</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">subset</span><span class="p">))</span>
 
-<span class="s2">        print(&quot;</span><span class="k">Number</span> <span class="k">of</span> <span class="n">overhangs</span> <span class="k">in</span> <span class="n">subset</span><span class="o">:</span> <span class="s2">&quot; + str(clique_size))</span>
+        <span class="n">print</span><span class="p">(</span><span class="s2">&quot;Number of overhangs in subset: &quot;</span> <span class="o">+</span> <span class="n">str</span><span class="p">(</span><span class="n">clique_size</span><span class="p">))</span>
 
-<span class="s2">        # Visualize subset:</span>
+        <span class="c1"># Visualize subset:</span>
 
-<span class="s2">        figwidth = len(self.subset)</span>
+        <span class="n">figwidth</span> <span class="o">=</span> <span class="n">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">subset</span><span class="p">)</span>
 
-<span class="s2">        print(self.enzyme, &quot;</span><span class="n">Tatapov</span> <span class="n">plot</span> <span class="p">(</span><span class="mi">37</span> <span class="n">Celsius</span><span class="p">,</span> <span class="mi">1</span> <span class="k">hour</span><span class="p">)</span><span class="o">:</span><span class="s2">&quot;)</span>
+        <span class="n">print</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">enzyme</span><span class="p">,</span> <span class="s2">&quot;Tatapov plot (37 Celsius, 1 hour):&quot;</span><span class="p">)</span>
 
-<span class="s2">        data = tatapov.annealing_data[&quot;</span><span class="n">37C</span><span class="s2">&quot;][enzyme_tatapov_lookup[self.enzyme]]</span>
+        <span class="k">data</span> <span class="o">=</span> <span class="n">tatapov</span><span class="p">.</span><span class="n">annealing_data</span><span class="err">[</span><span class="s2">&quot;37C&quot;</span><span class="err">][</span><span class="n">enzyme_tatapov_lookup</span><span class="err">[</span><span class="n">self</span><span class="p">.</span><span class="n">enzyme</span><span class="err">]]</span>
 
-<span class="s2">        subset = tatapov.data_subset(data, self.subset, add_reverse=True)</span>
+        <span class="n">subset</span> <span class="o">=</span> <span class="n">tatapov</span><span class="p">.</span><span class="n">data_subset</span><span class="p">(</span><span class="k">data</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">subset</span><span class="p">,</span> <span class="n">add_reverse</span><span class="o">=</span><span class="no">True</span><span class="p">)</span>
 
-<span class="s2">        self.ax, _ = tatapov.plot_data(subset, figwidth=figwidth, plot_color=&quot;</span><span class="n">Reds</span><span class="s2">&quot;)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">ax</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">tatapov</span><span class="p">.</span><span class="n">plot_data</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="n">figwidth</span><span class="o">=</span><span class="n">figwidth</span><span class="p">,</span> <span class="n">plot_color</span><span class="o">=</span><span class="s2">&quot;Reds&quot;</span><span class="p">)</span>
 
-<span class="s2">        self.ax.figure.tight_layout()</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">ax</span><span class="p">.</span><span class="n">figure</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
 
-<span class="s2">        self.ax.plot()</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">()</span>
 </code></pre></div>
 
 
@@ -1625,11 +1625,11 @@ DNA assembly.</p>
 </code></pre></div>
 
 
-<p>"Find a better overhang set by removing bad overhang interactions.</p>
+<p>Find a better overhang set by removing bad overhang interactions.</p>
 <p>Bad interactions are weak anneals, self-misanneals and misanneals.</p>
 <details class="example"><summary>View Source</summary><div class="codehilite"><pre><span></span><code>    <span class="n">def</span> <span class="n">find_perfect_subset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-        <span class="sd">&quot;&quot;&quot;&quot;Find a better overhang set by removing bad overhang interactions.</span>
+        <span class="sd">&quot;&quot;&quot;Find a better overhang set by removing bad overhang interactions.</span>
 
 <span class="sd">        Bad interactions are weak anneals, self-misanneals and misanneals.</span>
 

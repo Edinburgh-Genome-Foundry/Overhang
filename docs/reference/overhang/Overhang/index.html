@@ -681,15 +681,19 @@
 
         <span class="n">stop</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;TAA&quot;</span><span class="p">,</span> <span class="s2">&quot;TAG&quot;</span><span class="p">,</span> <span class="s2">&quot;TGA&quot;</span><span class="p">]</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">has_start_codon</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">has_stop_codon</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">has_rc_start_codon</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">has_rc_stop_codon</span> <span class="o">=</span> <span class="kc">False</span>
+
         <span class="k">for</span> <span class="n">codon</span> <span class="ow">in</span> <span class="n">start</span><span class="p">:</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">overhang</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">codon</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">has_start_codon</span> <span class="o">=</span> <span class="kc">True</span>
-
-            <span class="k">else</span><span class="p">:</span>
-
-                <span class="bp">self</span><span class="o">.</span><span class="n">has_start_codon</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="k">for</span> <span class="n">codon</span> <span class="ow">in</span> <span class="n">stop</span><span class="p">:</span>  <span class="c1"># &quot;ATGA&quot; can have both</span>
 
@@ -697,29 +701,17 @@
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">has_stop_codon</span> <span class="o">=</span> <span class="kc">True</span>
 
-            <span class="k">else</span><span class="p">:</span>
-
-                <span class="bp">self</span><span class="o">.</span><span class="n">has_stop_codon</span> <span class="o">=</span> <span class="kc">False</span>
-
         <span class="k">for</span> <span class="n">codon</span> <span class="ow">in</span> <span class="n">start</span><span class="p">:</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">overhang_rc</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">codon</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">has_rc_start_codon</span> <span class="o">=</span> <span class="kc">True</span>
 
-            <span class="k">else</span><span class="p">:</span>
-
-                <span class="bp">self</span><span class="o">.</span><span class="n">has_rc_start_codon</span> <span class="o">=</span> <span class="kc">False</span>
-
         <span class="k">for</span> <span class="n">codon</span> <span class="ow">in</span> <span class="n">stop</span><span class="p">:</span>  <span class="c1"># &quot;ATGA&quot; can have both</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">overhang_rc</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">codon</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">has_rc_stop_codon</span> <span class="o">=</span> <span class="kc">True</span>
-
-            <span class="k">else</span><span class="p">:</span>
-
-                <span class="bp">self</span><span class="o">.</span><span class="n">has_rc_stop_codon</span> <span class="o">=</span> <span class="kc">False</span>
 
 <span class="k">def</span> <span class="nf">generate_all_overhangs</span><span class="p">(</span><span class="n">overhang_length</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
 
@@ -751,7 +743,7 @@
 
 <span class="k">def</span> <span class="nf">get_overhang_distance</span><span class="p">(</span><span class="n">oh1</span><span class="p">,</span> <span class="n">oh2</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;Calculate number of different letters between two Overhang instances.</span>
+    <span class="sd">&quot;&quot;&quot;Calculate number of different letters between two `Overhang` instances.</span>
 
 <span class="sd">    **Parameters**</span>
 
@@ -759,7 +751,7 @@
 
 <span class="sd">    &gt; An `Overhang` instance.</span>
 
-<span class="sd">    **oh2</span>
+<span class="sd">    **oh2**</span>
 
 <span class="sd">    &gt; An `Overhang` instance.</span>
 
@@ -906,19 +898,19 @@
 </code></pre></div>
 
 
-<p>Calculate number of different letters between two Overhang instances.</p>
+<p>Calculate number of different letters between two <code>Overhang</code> instances.</p>
 <p><strong>Parameters</strong></p>
 <p><strong>oh1</strong></p>
 <blockquote>
 <p>An <code>Overhang</code> instance.</p>
 </blockquote>
-<p>**oh2</p>
+<p><strong>oh2</strong></p>
 <blockquote>
 <p>An <code>Overhang</code> instance.</p>
 </blockquote>
 <details class="example"><summary>View Source</summary><div class="codehilite"><pre><span></span><code><span class="n">def</span> <span class="n">get_overhang_distance</span><span class="p">(</span><span class="n">oh1</span><span class="p">,</span> <span class="n">oh2</span><span class="p">)</span><span class="o">:</span>
 
-    <span class="s2">&quot;</span><span class="se">&quot;&quot;</span><span class="s2">Calculate number of different letters between two Overhang instances.</span>
+    <span class="s2">&quot;</span><span class="se">&quot;&quot;</span><span class="s2">Calculate number of different letters between two `Overhang` instances.</span>
 
 <span class="s2">    **Parameters**</span>
 
@@ -926,7 +918,7 @@
 
 <span class="s2">    &gt; An `Overhang` instance.</span>
 
-<span class="s2">    **oh2</span>
+<span class="s2">    **oh2**</span>
 
 <span class="s2">    &gt; An `Overhang` instance.</span>
 
@@ -1044,15 +1036,19 @@ of which was given as parameter.</p>
 
         <span class="k">stop</span> <span class="o">=</span> <span class="err">[</span><span class="s2">&quot;TAA&quot;</span><span class="p">,</span> <span class="s2">&quot;TAG&quot;</span><span class="p">,</span> <span class="s2">&quot;TGA&quot;</span><span class="err">]</span>
 
+        <span class="n">self</span><span class="p">.</span><span class="n">has_start_codon</span> <span class="o">=</span> <span class="no">False</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">has_stop_codon</span> <span class="o">=</span> <span class="no">False</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">has_rc_start_codon</span> <span class="o">=</span> <span class="no">False</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">has_rc_stop_codon</span> <span class="o">=</span> <span class="no">False</span>
+
         <span class="k">for</span> <span class="n">codon</span> <span class="k">in</span> <span class="k">start</span><span class="o">:</span>
 
             <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">overhang</span><span class="p">.</span><span class="nf">count</span><span class="p">(</span><span class="n">codon</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">:</span>
 
                 <span class="n">self</span><span class="p">.</span><span class="n">has_start_codon</span> <span class="o">=</span> <span class="no">True</span>
-
-            <span class="k">else</span><span class="o">:</span>
-
-                <span class="n">self</span><span class="p">.</span><span class="n">has_start_codon</span> <span class="o">=</span> <span class="no">False</span>
 
         <span class="k">for</span> <span class="n">codon</span> <span class="k">in</span> <span class="k">stop</span><span class="o">:</span>  <span class="c1"># &quot;ATGA&quot; can have both</span>
 
@@ -1060,29 +1056,17 @@ of which was given as parameter.</p>
 
                 <span class="n">self</span><span class="p">.</span><span class="n">has_stop_codon</span> <span class="o">=</span> <span class="no">True</span>
 
-            <span class="k">else</span><span class="o">:</span>
-
-                <span class="n">self</span><span class="p">.</span><span class="n">has_stop_codon</span> <span class="o">=</span> <span class="no">False</span>
-
         <span class="k">for</span> <span class="n">codon</span> <span class="k">in</span> <span class="k">start</span><span class="o">:</span>
 
             <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">overhang_rc</span><span class="p">.</span><span class="nf">count</span><span class="p">(</span><span class="n">codon</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">:</span>
 
                 <span class="n">self</span><span class="p">.</span><span class="n">has_rc_start_codon</span> <span class="o">=</span> <span class="no">True</span>
 
-            <span class="k">else</span><span class="o">:</span>
-
-                <span class="n">self</span><span class="p">.</span><span class="n">has_rc_start_codon</span> <span class="o">=</span> <span class="no">False</span>
-
         <span class="k">for</span> <span class="n">codon</span> <span class="k">in</span> <span class="k">stop</span><span class="o">:</span>  <span class="c1"># &quot;ATGA&quot; can have both</span>
 
             <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">overhang_rc</span><span class="p">.</span><span class="nf">count</span><span class="p">(</span><span class="n">codon</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">:</span>
 
                 <span class="n">self</span><span class="p">.</span><span class="n">has_rc_stop_codon</span> <span class="o">=</span> <span class="no">True</span>
-
-            <span class="k">else</span><span class="o">:</span>
-
-                <span class="n">self</span><span class="p">.</span><span class="n">has_rc_stop_codon</span> <span class="o">=</span> <span class="no">False</span>
 </code></pre></div>
 
 
@@ -1149,15 +1133,19 @@ of which was given as parameter.</p>
 
         <span class="nv">stop</span> <span class="o">=</span> [<span class="s2">&quot;</span><span class="s">TAA</span><span class="s2">&quot;</span>, <span class="s2">&quot;</span><span class="s">TAG</span><span class="s2">&quot;</span>, <span class="s2">&quot;</span><span class="s">TGA</span><span class="s2">&quot;</span>]
 
+        <span class="nv">self</span>.<span class="nv">has_start_codon</span> <span class="o">=</span> <span class="nv">False</span>
+
+        <span class="nv">self</span>.<span class="nv">has_stop_codon</span> <span class="o">=</span> <span class="nv">False</span>
+
+        <span class="nv">self</span>.<span class="nv">has_rc_start_codon</span> <span class="o">=</span> <span class="nv">False</span>
+
+        <span class="nv">self</span>.<span class="nv">has_rc_stop_codon</span> <span class="o">=</span> <span class="nv">False</span>
+
         <span class="k">for</span> <span class="nv">codon</span> <span class="nv">in</span> <span class="nv">start</span>:
 
             <span class="k">if</span> <span class="nv">self</span>.<span class="nv">overhang</span>.<span class="nv">count</span><span class="ss">(</span><span class="nv">codon</span><span class="ss">)</span> <span class="o">!=</span> <span class="mi">0</span>:
 
                 <span class="nv">self</span>.<span class="nv">has_start_codon</span> <span class="o">=</span> <span class="nv">True</span>
-
-            <span class="k">else</span>:
-
-                <span class="nv">self</span>.<span class="nv">has_start_codon</span> <span class="o">=</span> <span class="nv">False</span>
 
         <span class="k">for</span> <span class="nv">codon</span> <span class="nv">in</span> <span class="nv">stop</span>:  # <span class="s2">&quot;</span><span class="s">ATGA</span><span class="s2">&quot;</span> <span class="nv">can</span> <span class="nv">have</span> <span class="nv">both</span>
 
@@ -1165,29 +1153,17 @@ of which was given as parameter.</p>
 
                 <span class="nv">self</span>.<span class="nv">has_stop_codon</span> <span class="o">=</span> <span class="nv">True</span>
 
-            <span class="k">else</span>:
-
-                <span class="nv">self</span>.<span class="nv">has_stop_codon</span> <span class="o">=</span> <span class="nv">False</span>
-
         <span class="k">for</span> <span class="nv">codon</span> <span class="nv">in</span> <span class="nv">start</span>:
 
             <span class="k">if</span> <span class="nv">self</span>.<span class="nv">overhang_rc</span>.<span class="nv">count</span><span class="ss">(</span><span class="nv">codon</span><span class="ss">)</span> <span class="o">!=</span> <span class="mi">0</span>:
 
                 <span class="nv">self</span>.<span class="nv">has_rc_start_codon</span> <span class="o">=</span> <span class="nv">True</span>
 
-            <span class="k">else</span>:
-
-                <span class="nv">self</span>.<span class="nv">has_rc_start_codon</span> <span class="o">=</span> <span class="nv">False</span>
-
         <span class="k">for</span> <span class="nv">codon</span> <span class="nv">in</span> <span class="nv">stop</span>:  # <span class="s2">&quot;</span><span class="s">ATGA</span><span class="s2">&quot;</span> <span class="nv">can</span> <span class="nv">have</span> <span class="nv">both</span>
 
             <span class="k">if</span> <span class="nv">self</span>.<span class="nv">overhang_rc</span>.<span class="nv">count</span><span class="ss">(</span><span class="nv">codon</span><span class="ss">)</span> <span class="o">!=</span> <span class="mi">0</span>:
 
                 <span class="nv">self</span>.<span class="nv">has_rc_stop_codon</span> <span class="o">=</span> <span class="nv">True</span>
-
-            <span class="k">else</span>:
-
-                <span class="nv">self</span>.<span class="nv">has_rc_stop_codon</span> <span class="o">=</span> <span class="nv">False</span>
 </code></pre></div>
 
 
