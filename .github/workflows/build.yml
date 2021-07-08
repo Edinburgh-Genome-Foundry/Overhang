@@ -22,7 +22,7 @@ jobs:
           pip install -e .
       - name: Test with pytest
         run: |
-          python -m pytest --cov moviepy --cov-report term-missing
+          python -m pytest --cov overhang --cov-report term-missing
       - name: Coveralls
         run: coveralls
         env:
