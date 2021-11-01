@@ -1,6 +1,8 @@
 import itertools
 import networkx
 
+import Bio.Restriction
+
 import tatapov
 
 from .Overhang import Overhang, get_overhang_distance
@@ -94,6 +96,25 @@ class OverhangSet:
             print("Warning! " + self.set_size_text)
         else:
             self.set_size_text = ""
+
+        # OVERHANG IN ENZYME SITE
+        self.overhangs_in_site = []
+        site = Bio.Restriction.__dict__[self.enzyme].site
+        for oh in self.overhangs:
+            if oh.overhang in site:
+                self.overhangs_in_site += [oh]
+            elif oh.overhang_rc in site:
+                self.overhangs_in_site += [oh]
+
+        if not len(self.overhangs_in_site) == 0:
+            self.has_warnings = True
+            # Convert to text
+            self.overhangs_in_site_txt = [
+                oh.overhang + "/" + oh.overhang_rc for oh in self.overhangs_in_site
+            ]
+            self.overhangs_in_site_txt = "; ".join(self.overhangs_in_site_txt)
+        else:
+            self.overhangs_in_site_txt = ""
 
         # MISANNEALING
         self.evaluate_annealing()  # also sets `has_warnings`
