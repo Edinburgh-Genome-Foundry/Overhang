@@ -59,6 +59,10 @@ else
     p
       strong #[span.yellow Warning!] {{ overhangset.set_size_text }}
 
+  if overhangset.overhangs_in_site_txt
+    p
+      strong #[span.yellow Warning!] The following overhang(s) are part of the enzyme site: {{ overhangset.overhangs_in_site_txt }}<br>
+
   p {{ similar_overhangs }}
 
 
@@ -144,7 +148,7 @@ p
 p The first page describes the overhang set. The result is also summarised with a symbol:
 
 p #[span.green ☑] : good overhang set
-p #[span.yellow ⚠] : warning; there are ways to significantly improve the set
+p #[span.yellow ⚠] : warning; there are potential issues, or ways to significantly improve the set
 p #[span.red ☒] : error: the set cannot be used for DNA assembly
 
 p
@@ -166,6 +170,9 @@ p.
   which is displayed in a summary plot. For more details, see the
   <a href="https://github.com/Edinburgh-Genome-Foundry/tatapov">Tatapov</a> package and
   Pryor et al. (<a href="https://doi.org/10.1371/journal.pone.0238592">PLoS ONE (2020) 15(9): e0238592</a>).
+
+p.
+  If an overhang sequence is part of the enzyme's recognition site, then there is a higher chance that it will make up an enzyme site with adjacent nucleotides.
 
 p.
   After the assembly, these overhangs remain in the sequence as fusion sites ("scars").
